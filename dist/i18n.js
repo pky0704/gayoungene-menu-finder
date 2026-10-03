@@ -47,3 +47,10 @@ const locationUpdates={
  'zh-Hans':{findUs:'找到 Gayoungene',mapsHelp:'在 Google 地图查看位置、照片和顾客评价。将在新标签页或地图应用中打开。',openGoogleMaps:'Google 地图与评价',directions:'获取路线'}
 };
 for(const [lang,updates] of Object.entries(locationUpdates))Object.assign(messages[lang],updates);
+
+const giftEventMessages={
+ en:{giftEventLabel:'Special event · Now on',giftEventTitle:'A special gift, exclusively for international guests',giftEventNote:'Please ask our staff in store for details.'},
+ ja:{giftEventLabel:'特別イベント開催中',giftEventTitle:'外国からのお客様限定の特別なプレゼント',giftEventNote:'詳しくは店内のスタッフにお尋ねください。'},
+ 'zh-Hans':{giftEventLabel:'特别活动进行中',giftEventTitle:'外国顾客专属特别礼物',giftEventNote:'详情请到店咨询工作人员。'}
+};
+for(const [lang,updates] of Object.entries(giftEventMessages))Object.assign(messages[lang],updates);
