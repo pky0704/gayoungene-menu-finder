@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gayoungene-menu-finder.vercel.app/sitemap.xml

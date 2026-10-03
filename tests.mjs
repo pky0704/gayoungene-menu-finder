@@ -1,3 +1,4 @@
+import {getGuideChoices} from './dist/guide.js';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
@@ -17,4 +18,18 @@ test('Official logo and share image retained',()=>{const hash=p=>createHash('sha
 test('HTML asset references resolve and no payment or source credentials exposed',()=>{const html=readFileSync('dist/index.html','utf8');for(const m of html.matchAll(/(?:src|href)="\.\/([^"?]+)(?:\?[^\"]*)?"/g))assert.ok(existsSync('dist/'+m[1]));const app=readFileSync('dist/app.js','utf8');assert.ok(!/\bfetch\s*\(|XMLHttpRequest|API_KEY|addToCart/.test(app));});
 test('Exact UI spice choices exclude lower levels; maximum tool mode remains supported',()=>{for(const [level,count] of [[0,11],[1,4],[2,4]]){const result=filterDishes(dishes,{...all,spice:level,spiceMode:'exact'});assert.equal(result.length,count);assert.ok(result.every(d=>d.spiceLevel===level));}assert.equal(filterDishes(dishes,{...all,spice:1,spiceMode:'max'}).length,15);});
 test('Owner recommendations are exactly the seven requested published dishes',()=>{assert.deepEqual(recommendedMenuIds,['M006','M010','M019','M018','M021','M023','M034']);assert.ok(recommendedMenuIds.every(id=>dishes.some(d=>d.id===id)));});
+test('Guided picks use exact spice and owner priority without changing menu data',()=>{
+ const before=JSON.stringify(dishes);
+ for(const spice of [null,0,1,2]){
+  const choices=getGuideChoices(dishes,recommendedMenuIds,spice);
+  assert.equal(choices.length,3);assert.equal(new Set(choices.map(d=>d.id)).size,3);
+  for(const d of choices){assert.ok(dishes.includes(d));assert.ok(!d.seasonal&&!['dessert','drinks'].includes(d.categoryId));if(spice!==null)assert.equal(d.spiceLevel,spice);}
+  const expected=dishes.filter(d=>!d.seasonal&&!['dessert','drinks'].includes(d.categoryId)&&(spice===null||d.spiceLevel===spice));
+  const ownerCount=Math.min(3,expected.filter(d=>recommendedMenuIds.includes(d.id)).length);
+  assert.ok(choices.slice(0,ownerCount).every(d=>recommendedMenuIds.includes(d.id)));
+ }
+ assert.deepEqual(getGuideChoices([],recommendedMenuIds,0),[]);
+ assert.deepEqual(getGuideChoices(dishes,recommendedMenuIds,99),[]);
+ assert.equal(JSON.stringify(dishes),before);
+});
 console.log(`${n} checks passed.`);
