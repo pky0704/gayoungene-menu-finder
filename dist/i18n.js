@@ -1,4 +1,4 @@
-import {extraMessages} from './i18n-extra.js?v=20261004-languages';
+import {extraMessages} from './i18n-extra.js?v=20261004-foodnames';
 export const languages={en:'English',ja:'日本語','zh-Hans':'中文',vi:'Tiếng Việt',mn:'Монгол',id:'Indonesia',fr:'Français'};
 const keys=['menu','how','visit','categories','chooseLanguage','tteok','fried','meals','sundae','sides','dessert','drinks','ingredients','ingredientNote','details','close','zoom','photoPending','spice','notSpicy','mild','spicy','unknownSpice','seasonal','seasonNote','options','wheatOption','moreIngredients','pending','otherMeat','showStaff','staffNote','filters','avoid','filterHelp','all','reset','noResults','noResultsHelp','anySpice','upMild','recommendations','JP','VN','MN','order','delivery','self','return','hours','changes','intro','skip','translationNote','pork','beef','chicken','fish','squid','shrimp','egg','dairy','wheat','soy','sesame','contains','unknown','absent_verified'];
 const values={
@@ -56,8 +56,8 @@ const giftEventMessages={
 };
 for(const [lang,updates] of Object.entries(giftEventMessages))Object.assign(messages[lang],updates);
 
-Object.assign(messages.en,{recommended:'Recommended',tteok:'Chewy Cakes & Noodles',meals:'Seaweed Rice Rolls & Meals',sundae:'Korean Sausage',dessert:'Shaved Ice & Desserts'});
-Object.assign(messages.ja,{recommended:'おすすめ',tteok:'韓国もち・ラーメン',meals:'韓国海苔巻き・ご飯もの',sundae:'韓国ソーセージ',dessert:'かき氷・デザート'});
+Object.assign(messages.en,{recommended:'Recommended',tteok:'Tteokbokki & Rabokki',meals:'Gimbap & Meals',sundae:'Sundae (Korean Sausage)',dessert:'Bingsu & Desserts'});
+Object.assign(messages.ja,{recommended:'おすすめ',tteok:'トッポッキ・ラッポッキ',meals:'キンパ・ご飯もの',sundae:'スンデ',dessert:'ピンス・デザート'});
 Object.assign(messages['zh-Hans'],{recommended:'推荐'});
 Object.assign(messages,extraMessages);
 

@@ -142,3 +142,11 @@ npm test와 모든 dist JavaScript 구문 검사를 통과했습니다. 7개 언
 모바일 맵기·재료 버튼은 두 열, 주요 도움 버튼은 한 열로 배치했습니다. 언어 선택은 세 열, 가장 좁은 팝업은 두 열로 줄바꿈하여 작은 글자로 축소하지 않습니다. 오렌지 선택 표시, 체크 없음, 원본 사진·로고 비율, 메뉴 데이터와 필터 동작을 유지합니다.
 npm test 및 dist JavaScript 구문 검사 통과. 실제 Chromium에서 7개 언어의 메뉴·필터·빈 결과·상세·직원 화면·사진·간단 추천·재료 질문·이용 방법·매장 안내를 320×700, 390×844, 820×1180, 1280×900에서 검사했습니다. 각 크기에서 77개 화면 상태의 직접 텍스트 노드 계산 크기 최솟값이 16px이었고, 문서·팝업·버튼의 가로 넘침을 발견하지 못했습니다. 검사 스크립트는 launch/qa-type-20261004/browser-check.js입니다.
 모바일 첫 화면·메뉴, 320px 프랑스어 필터·직원 화면, PC 첫 화면의 캡처를 육안 확인했습니다. 실제 휴대폰 하드웨어 검수는 미실시입니다.
+
+
+2026년 10월 4일 음식 고유 이름 중심으로 메뉴명 재검토
+이전 설명형 이름이 떡볶이·김밥 등의 정체성을 흐린다는 사용자 피드백을 반영했습니다. 32개 메뉴를 재검토하고 12개 메뉴의 표시 이름과 관련 카테고리를 수정했습니다. 기존 설명은 보존하고, 음식 이름은 Tteokbokki·Gimbap·Bingsu 등의 고유 이름이나 각 언어의 통용명을 우선합니다. 라볶이·순대·쫄면처럼 추가 설명이 필요한 이름에는 괄호 설명을 함께 사용합니다. 중국어의 炒年糕·紫菜包饭·刨冰과 일반적인 튀김·삶은 달걀·음료의 현지어 이름은 유지합니다.
+영어 주요 변경: Classic Tteokbokki, Mozzarella Tteokbokki, Rabokki (Tteokbokki & Ramyeon), Egg & Vegetable Gimbap, Tuna Mayo Gimbap, Jjolmyeon (Spicy Chewy Noodles), Sundae (Korean Sausage), Red Bean Bingsu, Injeolmi & Red Bean Bingsu, Pineapple & Yuzu Bingsu, Strawberry & Cream Cheese Bingsu, Chocolate Cookie & Strawberry Bingsu.
+판단 근거는 한국관광공사가 Tteokbokki·Gimbap·Sundae·Bingsu 이름과 음식 설명을 함께 사용하는 방식입니다. https://english.visitkorea.or.kr/svc/contents/contentsView.do?menuSn=205&vcontsId=140730
+이 자료가 모든 메뉴의 7개 언어 번역을 인증하거나 모든 외국인의 이해를 보장하지는 않습니다. 각 언어의 표현은 원어민 검수가 남아 있으며, 한국어 주문명과 확인된 음식 설명을 함께 제공합니다. 이 기준이 앞선 설명형 이름 우선 기록을 대체합니다.
+검증: npm test 데이터·자산 12개 검사와 7개 언어 DOM 검사, dist JavaScript 구문 검사 통과. 변경 전 코드와 비교하여 이름 외 승인 메뉴 데이터, 기존 설명, 수량, 매장 안내가 그대로임을 확인했습니다. Chromium 320×700, 390×844, 1280×900에서 각각 77개 화면 상태를 검사해 최소 글자 크기 16px과 가로 넘침 없음을 확인했습니다. 영어 모바일·PC와 일본어 모바일 메뉴 화면을 육안 확인했고 브라우저 실행 오류는 없었습니다. 기존 launch/qa-type-20261004/browser-check.js를 재사용했습니다. 실제 휴대폰·원어민 검수는 미실시입니다.

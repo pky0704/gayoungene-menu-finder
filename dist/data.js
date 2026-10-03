@@ -1,4 +1,4 @@
-import {descriptiveNames,menuTranslations,unitTranslations,storeTranslations} from './menu-translations.js?v=20261004-languages';
+import {descriptiveNames,menuTranslations,unitTranslations,storeTranslations} from './menu-translations.js?v=20261004-foodnames';
 export const sourceUpdated='2026-10-02';
 export const dishes=[
   {

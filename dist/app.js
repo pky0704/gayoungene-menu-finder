@@ -1,8 +1,8 @@
-import {storeLinks} from './store-links.js?v=20261004-avoid';
-import {flags} from './filter-art.js?v=20261004-avoid';
-import {getGuideChoices} from './guide.js?v=20261004-avoid';
-import {languages,messages} from './i18n.js?v=20261004-avoid';
-import {dishes,categories,ingredientKeys,storeInfo,recommendations,recommendedMenuIds,filterDishes} from './data.js?v=20261004-avoid';
+import {storeLinks} from './store-links.js?v=20261004-foodnames';
+import {flags} from './filter-art.js?v=20261004-foodnames';
+import {getGuideChoices} from './guide.js?v=20261004-foodnames';
+import {languages,messages} from './i18n.js?v=20261004-foodnames';
+import {dishes,categories,ingredientKeys,storeInfo,recommendations,recommendedMenuIds,filterDishes} from './data.js?v=20261004-foodnames';
 import {icons} from './icons.js?v=20261002-final';
 const app=document.querySelector('#app'),dialog=document.querySelector('#detail');
 const state={lang:'en',page:'menu',avoid:[],spice:null,spiceMode:'exact',category:'all',country:'all',selected:null,dialogMode:'detail',filtersOpen:false};
