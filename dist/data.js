@@ -1,4 +1,6 @@
-import {descriptiveNames,menuTranslations,unitTranslations,storeTranslations} from './menu-translations.js?v=20261004-foodnames';
+import {ingredientStatus} from './ingredient-guidance.js?v=20261004-preferences';
+export {ingredientStatus} from './ingredient-guidance.js?v=20261004-preferences';
+import {descriptiveNames,menuTranslations,unitTranslations,storeTranslations} from './menu-translations.js?v=20261004-preferences';
 export const sourceUpdated='2026-10-02';
 export const dishes=[
   {
@@ -1555,7 +1557,7 @@ export const storeInfo=[
 export const categories=['tteok','fried','meals','sundae','sides','dessert','drinks'];
 export const ingredientKeys=['pork','beef','chicken','fish','squid','shrimp','egg','dairy','wheat','soy','sesame'];
 export const recommendations=[{countryCode:'JP',menuId:'M018'},{countryCode:'JP',menuId:'M019'},{countryCode:'JP',menuId:'M023'},{countryCode:'VN',menuId:'M009'},{countryCode:'MN',menuId:'M011'}];
-export function matches(d,f){return f.avoid.every(k=>d.ingredients[k]==='absent_verified')&&(f.spice===null||(d.spiceLevel!==null&&(f.spiceMode==='exact'?d.spiceLevel===f.spice:d.spiceLevel<=f.spice)))&&(f.category==='all'||d.categoryId===f.category);}
+export function matches(d,f){return f.avoid.every(k=>ingredientKeys.includes(k)&&!['contains','possible'].includes(ingredientStatus(d,k)))&&(f.spice===null||(d.spiceLevel!==null&&(f.spiceMode==='exact'?d.spiceLevel===f.spice:d.spiceLevel<=f.spice)))&&(f.category==='all'||d.categoryId===f.category);}
 export function filterDishes(data,f,{recs=null}={}){return data.filter(d=>d.availability!=='inactive'&&d.publicationStatus==='approved'&&matches(d,f)&&(!recs||recs.some(r=>r.menuId===d.id)));}
 
 // Owner-selected recommended menu badges, confirmed 2026-10-02.

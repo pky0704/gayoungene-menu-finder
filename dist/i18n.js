@@ -1,4 +1,5 @@
-import {extraMessages} from './i18n-extra.js?v=20261004-foodnames';
+import {preferenceMessages} from './preference-messages.js?v=20261004-preferences';
+import {extraMessages} from './i18n-extra.js?v=20261004-preferences';
 export const languages={en:'English',ja:'日本語','zh-Hans':'中文',vi:'Tiếng Việt',mn:'Монгол',id:'Indonesia',fr:'Français'};
 const keys=['menu','how','visit','categories','chooseLanguage','tteok','fried','meals','sundae','sides','dessert','drinks','ingredients','ingredientNote','details','close','zoom','photoPending','spice','notSpicy','mild','spicy','unknownSpice','seasonal','seasonNote','options','wheatOption','moreIngredients','pending','otherMeat','showStaff','staffNote','filters','avoid','filterHelp','all','reset','noResults','noResultsHelp','anySpice','upMild','recommendations','JP','VN','MN','order','delivery','self','return','hours','changes','intro','skip','translationNote','pork','beef','chicken','fish','squid','shrimp','egg','dairy','wheat','soy','sesame','contains','unknown','absent_verified'];
 const values={
@@ -71,3 +72,5 @@ const avoidanceMessages={
  fr:['Aucun résultat vérifié pour le moment','Nous n’avons pas encore confirmé de plats sans les ingrédients sélectionnés. Cela ne signifie pas que tous les plats en contiennent. Demandez au personnel ou effacez les filtres.']
 };
 for(const [lang,[title,help]] of Object.entries(avoidanceMessages))Object.assign(messages[lang],{noVerifiedResults:title,noVerifiedResultsHelp:help});
+
+for(const [lang,copy] of Object.entries(preferenceMessages))Object.assign(messages[lang],copy);

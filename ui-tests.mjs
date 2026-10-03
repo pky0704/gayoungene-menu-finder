@@ -30,7 +30,7 @@ await select('spice','2');assert.equal(count(),0);assert.ok($('.empty'));assert.
 $('[data-reset]').click();await tick();assert.equal(count(),32);assert.equal(selected('spice'),'');assert.equal(selected('country'),'all');
 await select('spice','1');$('[data-lang="ja"]').click();await tick();assert.equal(count(),4);assert.equal(selected('spice'),'1');assert.ok($('.filter-panel').open);assert.equal($('.filter-results').textContent,'4件のメニュー');
 $('[data-lang="zh-Hans"]').click();await tick();assert.equal($('.filter-results').textContent,'找到 4 道菜品');
-$('[data-avoid="pork"]').click();assert.equal(count(),0);assert.equal($('[data-avoid="pork"]').getAttribute('aria-pressed'),'true');$('[data-avoid="pork"]').click();assert.equal(count(),4);
+$('[data-avoid="pork"]').click();assert.equal(count(),1);assert.equal($('[data-avoid="pork"]').getAttribute('aria-pressed'),'true');$('[data-avoid="pork"]').click();assert.equal(count(),4);
 const result=registered.execute({avoid:[],maxSpice:1});assert.equal(result.items.length,15);assert.equal(count(),15);await tick();assert.equal($('#spice [aria-pressed="true"]').textContent,'最多微辣');
 // Country selection and optional tool results must describe the same visible dishes.
 await select('country','JP');
@@ -97,8 +97,8 @@ for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
  assert.equal($$('#app [data-lang]').length,7);
 }
 // Maximum-level integrations must not be mislabeled as exact-level filters.
-registered.execute({avoid:['pork'],maxSpice:1});
-assert.equal(count(),0);assert.ok($('[data-clear-filter="spice"]'));
+const preferenceResult=registered.execute({avoid:['pork'],maxSpice:1});
+assert.equal(count(),8);assert.ok(preferenceResult.notice);assert.ok(preferenceResult.items.every(d=>d.unverifiedIngredients.includes('pork')));assert.ok($('[data-clear-filter="spice"]'));
 $('[data-clear-filter="avoid-pork"]').click();assert.equal(count(),15);
 $('[data-clear-filter="spice"]').click();assert.equal(count(),32);
 console.log('PASS Visible filter chips clear one condition, preserve remaining filters and collapsed state, restore focus, and expose ingredient help in seven languages.');
@@ -135,14 +135,28 @@ for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
  $('[data-lang="'+lang+'"]').click();$('[data-reset]').click();
  for(const key of ['pork','beef','chicken','fish','squid','shrimp','egg','dairy','wheat','soy','sesame']){
   const selector='[data-avoid="'+key+'"]';$(selector).click();
-  assert.equal(count(),0);assert.equal($(selector).getAttribute('aria-pressed'),'true');
-  assert.ok($('.empty h2').textContent.trim());assert.ok($('.empty [data-ingredient-help]'));
+  assert.equal(count(),({pork:23,beef:27,chicken:27,fish:25,squid:30,shrimp:29,egg:25,dairy:24,wheat:12,soy:16,sesame:25})[key]);assert.equal($(selector).getAttribute('aria-pressed'),'true');
+  assert.ok($('.preference-notice').textContent.trim());assert.ok($('.preference-notice [data-ingredient-help]'));
+  assert.equal($$('.dish .preference-caution').length,count());
+  $('.filter-panel').open=false;assert.equal($('.preference-notice').closest('details'),null);
   $(selector).click();assert.equal(count(),32);
  }
  $('[data-avoid="pork"]').click();$('[data-avoid="egg"]').click();
  assert.equal($$('.ingredient-options [aria-pressed="true"]').length,2);
- $('[data-clear-filter="avoid-pork"]').click();assert.equal(count(),0);assert.equal($('[data-avoid="egg"]').getAttribute('aria-pressed'),'true');
+ $('[data-clear-filter="avoid-pork"]').click();assert.equal(count(),25);assert.equal($('[data-avoid="egg"]').getAttribute('aria-pressed'),'true');
  $('[data-reset]').click();assert.equal(count(),32);
 }
-console.log('PASS All 11 ingredient buttons toggle in seven languages; unknowns never match, multi-select and reset work.');
+console.log('PASS All 11 ingredient buttons toggle in seven languages; estimates excluded, uncertainty visible, multi-select and reset work.');
+// Context remains visible in staff and detail views; estimated facts stay separate.
+$('[data-lang="en"]').click();$('[data-avoid="pork"]').click();
+assert.equal($('#dish-M025'),null);assert.ok($('#dish-M018'));
+$('[data-show-staff="M018"]').click();assert.ok($('#detail .preference-caution').textContent.includes('Pork'));
+assert.ok($('#detail [lang="ko"].preference-caution').textContent.includes('돼지고기'));
+$('#detail [data-close]').click();$('[data-reset]').click();assert.equal($('.preference-notice'),null);
+$('[data-detail="M025"]').click();assert.ok($('#detail .ingredient-status').textContent.includes('May contain (estimate)'));
+assert.ok($('#detail .possible-ingredients').textContent.includes('Wheat'));$('#detail [data-close]').click();
+$('[data-country="VN"]').click();$('[data-avoid="pork"]').click();assert.equal(count(),0);
+assert.ok($('.empty h2').textContent.includes('preferences'));assert.ok($('.empty [data-ingredient-help]'));
+$('[data-reset]').click();assert.equal(count(),32);
+console.log('PASS Staff ingredient requests, estimated status, empty result recovery and tool uncertainty.');
 dom.window.close();

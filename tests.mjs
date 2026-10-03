@@ -2,7 +2,7 @@ import {getGuideChoices} from './dist/guide.js';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {dishes,categories,ingredientKeys,recommendations,recommendedMenuIds,filterDishes,matches,storeInfo} from './dist/data.js';
+import {dishes,categories,ingredientKeys,recommendations,recommendedMenuIds,filterDishes,matches,storeInfo,ingredientStatus} from './dist/data.js';
 import {languages,messages} from './dist/i18n.js';
 import {icons} from './dist/icons.js';
 const all={avoid:[],spice:null,category:'all'};
@@ -12,8 +12,23 @@ test('User category order and first dish are preserved',()=>{assert.deepEqual(ca
 test('Seven complete languages, names, descriptions, units and seven store guides',()=>{assert.deepEqual(Object.keys(languages),['en','ja','zh-Hans','vi','mn','id','fr']);for(const l of Object.keys(languages)){assert.deepEqual(Object.keys(messages[l]).sort(),Object.keys(messages.en).sort());assert.ok(Object.values(messages[l]).every(Boolean));assert.ok(dishes.every(d=>d.names[l]&&d.descriptions[l]&&typeof d.units[l]==='string'));assert.equal(storeInfo.length,7);assert.ok(storeInfo.every(s=>s[l]));}});
 test('18 authorized local photos exist, remaining 14 do not fabricate photos',()=>{assert.equal(dishes.filter(d=>d.photo).length,18);for(const d of dishes.filter(d=>d.photo))assert.ok(existsSync('dist/'+d.photo.slice(2)));});
 test('Known ingredient icons and scope do not invent chicken or recipe absences',()=>{assert.deepEqual(dishes.find(d=>d.id==='M034').contains,['wheat','sesame']);assert.ok(dishes.find(d=>d.id==='M015').contains.includes('squid'));for(const d of dishes){assert.ok(d.contains.every(k=>icons[k]));assert.ok(!d.contains.includes('chicken'));assert.ok(ingredientKeys.every(k=>['contains','unknown','absent_verified'].includes(d.ingredients[k])));}});
-test('Unknown ingredients excluded from avoidance filters; verified absence is required',()=>{for(const k of ingredientKeys){assert.equal(filterDishes(dishes,{...all,avoid:[k]}).length,0);const fixture={...dishes[0],ingredients:{...dishes[0].ingredients,[k]:'absent_verified'}};assert.equal(matches(fixture,{...all,avoid:[k]}),true);}assert.equal(matches({...dishes[0],ingredients:{pork:'absent_verified',egg:'unknown'}},{...all,avoid:['pork','egg']}),false);});
-test('Spice and country favorites remain intersected',()=>{assert.equal(dishes.filter(d=>d.spiceLevel!==null).length,19);const recs=recommendations.filter(r=>r.countryCode==='JP');assert.equal(filterDishes(dishes,all,{recs}).length,3);assert.equal(filterDishes(dishes,{...all,avoid:['pork']},{recs}).length,0);assert.ok(filterDishes(dishes,{...all,spice:0}).every(d=>d.spiceLevel===0));});
+test('Preference search excludes known and estimated ingredients without certifying unknowns',()=>{
+ const base={...dishes[0],id:'fixture',otherMeat:false,ingredients:{pork:'unknown',egg:'unknown'}};
+ assert.equal(matches(base,{...all,avoid:['pork']}),true);
+ assert.equal(ingredientStatus(base,'pork'),'unknown');
+ assert.equal(matches({...base,ingredients:{pork:'contains'}},{...all,avoid:['pork']}),false);
+ assert.equal(matches({...base,ingredients:{pork:'absent_verified',egg:'contains'}},{...all,avoid:['pork','egg']}),false);
+ assert.equal(matches(base,{...all,avoid:['invalid']}),false);
+ const dumpling=dishes.find(d=>d.id==='M025');
+ assert.equal(dumpling.ingredients.wheat,'unknown');assert.equal(ingredientStatus(dumpling,'wheat'),'possible');
+ assert.equal(matches(dumpling,{...all,avoid:['wheat']}),false);
+ assert.equal(matches({...dumpling,ingredients:{...dumpling.ingredients,wheat:'absent_verified'}},{...all,avoid:['wheat']}),true);
+ assert.equal(ingredientStatus(dumpling,'chicken'),'possible');assert.equal(dumpling.ingredients.chicken,'unknown');
+ for(const key of ingredientKeys){const result=filterDishes(dishes,{...all,avoid:[key]});assert.ok(result.length>0&&result.length<32);assert.ok(result.every(d=>!['contains','possible'].includes(ingredientStatus(d,key))));}
+ assert.equal(filterDishes(dishes,{...all,avoid:['pork']}).length,23);
+ assert.ok(!filterDishes(dishes,{...all,avoid:['dairy']}).some(d=>d.id==='M026'));
+});
+test('Spice and country favorites remain intersected',()=>{assert.equal(dishes.filter(d=>d.spiceLevel!==null).length,19);const recs=recommendations.filter(r=>r.countryCode==='JP');assert.equal(filterDishes(dishes,all,{recs}).length,3);assert.equal(filterDishes(dishes,{...all,avoid:['pork']},{recs}).length,2);assert.ok(filterDishes(dishes,{...all,spice:0}).every(d=>d.spiceLevel===0));});
 test('Official logo and share image retained',()=>{const hash=p=>createHash('sha256').update(readFileSync(p)).digest('hex');assert.equal(hash('dist/assets/gayoungene-logo.png'),'e9139d9e5b2aec61a99b9436db36e3f9a3bdba0ef38fa946d64a2b7b7f716321');assert.ok(existsSync('dist/og-kakao-logo-v2.png'));});
 test('HTML asset references resolve and no payment or source credentials exposed',()=>{const html=readFileSync('dist/index.html','utf8');for(const m of html.matchAll(/(?:src|href)="\.\/([^"?]+)(?:\?[^\"]*)?"/g))assert.ok(existsSync('dist/'+m[1]));const app=readFileSync('dist/app.js','utf8');assert.ok(!/\bfetch\s*\(|XMLHttpRequest|API_KEY|addToCart/.test(app));});
 test('Exact UI spice choices exclude lower levels; maximum tool mode remains supported',()=>{for(const [level,count] of [[0,11],[1,4],[2,4]]){const result=filterDishes(dishes,{...all,spice:level,spiceMode:'exact'});assert.equal(result.length,count);assert.ok(result.every(d=>d.spiceLevel===level));}assert.equal(filterDishes(dishes,{...all,spice:1,spiceMode:'max'}).length,15);});
