@@ -33,3 +33,17 @@ const qaUpdates={
  'zh-Hans':{resultsOne:'找到 1 道菜品',activeFilters:'当前筛选条件',removeFilter:'取消筛选：{filter}',activeFilterHelp:'取消筛选条件，可查看更多菜品，包括小吃。'}
 };
 for(const [lang,updates] of Object.entries(qaUpdates))Object.assign(messages[lang],updates);
+
+const visualUpdates={
+ en:{spiceReference:'Our “Spicy” level is about as hot as Shin Ramyun, according to the owner. Your experience may vary.',countryHelp:'Menu picks for guests from each country. Choose a flag to see the recommendations.',ingredientsChecking:'Ingredient exclusion is not available yet',ingredientsCheckingShort:'Checking recipes'},
+ ja:{spiceReference:'店主の目安では「辛口」は辛ラーメン程度です。辛さの感じ方には個人差があります。',countryHelp:'各国のお客様向けのおすすめです。国旗を選ぶと候補を表示します。',ingredientsChecking:'食材の除外検索は準備中です',ingredientsCheckingShort:'原材料確認中'},
+ 'zh-Hans':{spiceReference:'按店主的标准，“辣”约等于辛拉面的辣度。每个人对辣度的感受可能不同。',countryHelp:'为各国顾客推荐的菜品。点击国旗查看推荐。',ingredientsChecking:'暂不提供排除食材筛选',ingredientsCheckingShort:'配料确认中'}
+};
+for(const [lang,updates] of Object.entries(visualUpdates))Object.assign(messages[lang],updates);
+
+const locationUpdates={
+ en:{findUs:'Find Gayoungene',mapsHelp:'Find our location, photos and customer reviews on Google Maps. Opens in a new tab or the Maps app.',openGoogleMaps:'Google Maps & reviews',directions:'Get directions'},
+ ja:{findUs:'ガヨンイネへのアクセス',mapsHelp:'Google マップで場所・写真・口コミをご覧いただけます。別のタブまたはマップアプリが開きます。',openGoogleMaps:'Google マップ・口コミ',directions:'ルートを検索'},
+ 'zh-Hans':{findUs:'找到 Gayoungene',mapsHelp:'在 Google 地图查看位置、照片和顾客评价。将在新标签页或地图应用中打开。',openGoogleMaps:'Google 地图与评价',directions:'获取路线'}
+};
+for(const [lang,updates] of Object.entries(locationUpdates))Object.assign(messages[lang],updates);

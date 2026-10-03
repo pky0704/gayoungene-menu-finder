@@ -21,16 +21,17 @@ assert.ok($$('.spice-1').every(e=>e.querySelectorAll('svg').length===1));
 assert.ok($$('.spice-2').every(e=>e.querySelectorAll('svg').length===2));
 assert.equal($$('[data-avoid]:disabled').length,11);
 $('.filter-panel').open=true;await tick();
-const select=async(id,value)=>{const s=$('#'+id);s.value=value;s.dispatchEvent(new w.Event('change',{bubbles:true}));await tick();assert.equal($('.filter-panel').open,true);};
+const select=async(id,value)=>{$('[data-'+id+'="'+value+'"]').click();await tick();assert.equal($('.filter-panel').open,true);};
+const selected=id=>$('#'+id+' [aria-pressed="true"]').dataset[id];
 for(const [v,n] of [['0',11],['1',4],['2',4]]){await select('spice',v);assert.equal(count(),n);assert.ok($$('.dish .spice').every(e=>e.classList.contains('spice-'+v)));assert.equal($('.filter-results').textContent,`${n} menus found`);}
 await select('spice','');await select('country','JP');assert.equal(count(),3);
 assert.equal($$('.category-links a').length,2);assert.ok($$('.category-links a').every(a=>$(a.getAttribute('href'))));
 await select('spice','2');assert.equal(count(),0);assert.ok($('.empty'));assert.equal($$('.category-links a').length,0);
-$('[data-reset]').click();await tick();assert.equal(count(),32);assert.equal($('#spice').value,'');assert.equal($('#country').value,'all');
-await select('spice','1');$('[data-lang="ja"]').click();await tick();assert.equal(count(),4);assert.equal($('#spice').value,'1');assert.ok($('.filter-panel').open);assert.equal($('.filter-results').textContent,'4件のメニュー');
+$('[data-reset]').click();await tick();assert.equal(count(),32);assert.equal(selected('spice'),'');assert.equal(selected('country'),'all');
+await select('spice','1');$('[data-lang="ja"]').click();await tick();assert.equal(count(),4);assert.equal(selected('spice'),'1');assert.ok($('.filter-panel').open);assert.equal($('.filter-results').textContent,'4件のメニュー');
 $('[data-lang="zh-Hans"]').click();await tick();assert.equal($('.filter-results').textContent,'找到 4 道菜品');
 $('[data-avoid="pork"]').click();assert.equal(count(),4);
-const result=registered.execute({avoid:[],maxSpice:1});assert.equal(result.items.length,15);assert.equal(count(),15);await tick();assert.equal($('#spice').selectedOptions[0].textContent,'最多微辣');
+const result=registered.execute({avoid:[],maxSpice:1});assert.equal(result.items.length,15);assert.equal(count(),15);await tick();assert.equal($('#spice [aria-pressed="true"]').textContent,'最多微辣');
 // Country selection and optional tool results must describe the same visible dishes.
 await select('country','JP');
 const intersected=registered.execute({avoid:[],maxSpice:1});
@@ -51,7 +52,7 @@ for(const [page,n] of [['how',5],['visit',2]]){$('[data-page="'+page+'"]').click
 $('[data-home]').click();assert.equal(count(),32);
 console.log('PASS DOM interactions: filters and counts, three languages, recommendations, spice icons, country/tool consistency, desktop/mobile navigation, dialogs, photo zoom, store information.');
 // Quick filters share exact spice and country state with the full form.
-$('[data-quick-spice="0"]').click();assert.equal(count(),11);assert.equal($('#spice').value,'0');
+$('[data-quick-spice="0"]').click();assert.equal(count(),11);assert.equal(selected('spice'),'0');
 await select('country','JP');assert.equal(count(),3);
 $('[data-lang="en"]').click();assert.equal($('[data-quick-spice="0"]').getAttribute('aria-pressed'),'true');
 $('[data-quick-spice="2"]').click();assert.equal(count(),0);
@@ -61,7 +62,7 @@ $('[data-show-staff="M006"]').focus();$('[data-show-staff="M006"]').click();
 assert.ok($('#detail').open);assert.ok($('#detail-title').textContent.includes('떡볶이'));
 $('#detail [data-lang="ja"]').click();$('#detail [data-close]').click();
 assert.equal(w.document.activeElement.dataset.showStaff,'M006');
-assert.ok($('.selects').compareDocumentPosition($('.filter-body fieldset')) & w.Node.DOCUMENT_POSITION_FOLLOWING);
+assert.ok($('#spice').compareDocumentPosition($('.ingredient-section')) & w.Node.DOCUMENT_POSITION_FOLLOWING);
 console.log('PASS Quick filters preserve country/language state; direct staff view restores focus after language switching.');
 // Guided menu choice preserves language, spice and keyboard navigation.
 $('[data-guide]').focus();$('[data-guide]').click();assert.ok($('#detail').open);
@@ -87,7 +88,7 @@ for(const lang of ['en','ja','zh-Hans']){
  assert.equal(count(),3);assert.equal($$('[data-clear-filter]').length,2);
  assert.ok($('[data-clear-filter="country"]').getAttribute('aria-label'));
  $('[data-clear-filter="spice"]').click();await tick();
- assert.equal($('#country').value,'JP');assert.equal($('#spice').value,'');assert.equal(count(),3);
+ assert.equal(selected('country'),'JP');assert.equal(selected('spice'),'');assert.equal(count(),3);
  assert.equal($('.filter-panel').open,false);assert.equal(w.document.activeElement.dataset.clearFilter,'country');
  $('[data-clear-filter="country"]').click();await tick();
  assert.equal(count(),32);assert.equal($('.active-filters'),null);assert.ok(w.document.activeElement.hasAttribute('data-quick-spice'));
@@ -101,4 +102,22 @@ assert.equal(count(),0);assert.ok($('[data-clear-filter="spice"]'));
 $('[data-clear-filter="avoid-pork"]').click();assert.equal(count(),15);
 $('[data-clear-filter="spice"]').click();assert.equal(count(),32);
 console.log('PASS Visible filter chips clear one condition, preserve remaining filters and collapsed state, restore focus, and expose ingredient help in three languages.');
+for(const lang of ['en','ja','zh-Hans']){
+ $('[data-lang="'+lang+'"]').click();
+ assert.equal($$('select').length,0);
+ for(const scope of ['#spice','.quick-spice']){
+  const buttons=$$(scope+' button');
+  assert.equal(buttons.length,4);
+  assert.equal(buttons[1].querySelectorAll('.pepper-art svg').length,0);
+  assert.equal(buttons[2].querySelectorAll('.pepper-art svg').length,1);
+  assert.equal(buttons[3].querySelectorAll('.pepper-art svg').length,2);
+ }
+ assert.equal($$('#country .country-flag').length,3);
+ assert.equal($$('.ingredient-options button:disabled .button-art svg').length,11);
+ assert.ok($('#ingredient-filter-status').textContent);
+ $('[data-ingredient-contact]').focus();$('[data-ingredient-contact]').click();
+ $('#detail [data-lang="en"]').click();$('#detail [data-close]').click();
+ assert.ok(w.document.activeElement.hasAttribute('data-ingredient-contact'));
+}
+console.log('PASS Illustrated exact-spice buttons, flags, disabled ingredient icons and contextual help focus.');
 dom.window.close();
