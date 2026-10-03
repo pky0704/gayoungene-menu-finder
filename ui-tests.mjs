@@ -14,7 +14,7 @@ const tick=()=>new Promise(r=>setTimeout(r,5));
 const $=s=>w.document.querySelector(s), $$=s=>[...w.document.querySelectorAll(s)];
 const count=()=>$$('.dish').length;
 let registered;w.document.modelContext={registerTool(t){registered=t;}};
-await import(root+'dist/app.js');
+await import(new URL('./dist/app.js',import.meta.url).href);
 assert.equal(count(),32);assert.equal($$('.recommendation-badge').length,7);assert.equal($$('.recommendation-badge img').length,0);
 assert.equal($$('.spice-0 svg,.spice-null svg').length,0);
 assert.ok($$('.spice-1').every(e=>e.querySelectorAll('svg').length===1));
@@ -50,4 +50,17 @@ $('[data-photo="M006"]').click();assert.ok($('#detail .expanded-photo'));$('#det
 for(const [page,n] of [['how',5],['visit',2]]){$('[data-page="'+page+'"]').click();assert.equal($$('.information-block').length,n);}
 $('[data-home]').click();assert.equal(count(),32);
 console.log('PASS DOM interactions: filters and counts, three languages, recommendations, spice icons, country/tool consistency, desktop/mobile navigation, dialogs, photo zoom, store information.');
+// Quick filters share exact spice and country state with the full form.
+$('[data-quick-spice="0"]').click();assert.equal(count(),11);assert.equal($('#spice').value,'0');
+await select('country','JP');assert.equal(count(),3);
+$('[data-lang="en"]').click();assert.equal($('[data-quick-spice="0"]').getAttribute('aria-pressed'),'true');
+$('[data-quick-spice="2"]').click();assert.equal(count(),0);
+$('[data-reset]').click();assert.equal(count(),32);
+assert.equal($$('[data-show-staff]').length,32);
+$('[data-show-staff="M006"]').focus();$('[data-show-staff="M006"]').click();
+assert.ok($('#detail').open);assert.ok($('#detail-title').textContent.includes('떡볶이'));
+$('#detail [data-lang="ja"]').click();$('#detail [data-close]').click();
+assert.equal(w.document.activeElement.dataset.showStaff,'M006');
+assert.ok($('.selects').compareDocumentPosition($('.filter-body fieldset')) & w.Node.DOCUMENT_POSITION_FOLLOWING);
+console.log('PASS Quick filters preserve country/language state; direct staff view restores focus after language switching.');
 dom.window.close();

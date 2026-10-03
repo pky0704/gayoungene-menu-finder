@@ -12,3 +12,10 @@ en:{ingredientUnavailable:'Ingredient exclusion is unavailable while full recipe
 ja:{ingredientUnavailable:'全原材料を確認中のため、食材の除外検索は現在ご利用いただけません。食材についてはスタッフにお尋ねください。',results:'{count}件のメニュー',noResults:'条件に合うメニューがありません',noResultsHelp:'辛さや人気メニューの条件を変更するか、リセットしてください。',spicyMax:'辛口まで'},
 'zh-Hans':{ingredientUnavailable:'完整配料尚在确认中，暂不提供排除食材筛选。有关食材，请咨询店员。',results:'找到 {count} 道菜品',noResults:'暂无符合条件的菜品',noResultsHelp:'请更改辣度或顾客喜爱选项，或重置筛选条件。',spicyMax:'最多辣味'}};
 for(const [lang,updates] of Object.entries(filterUpdates))Object.assign(messages[lang],updates);
+
+const launchMessages={
+ en:{quickStart:'Choose a menu',guideIntro:'Choose a dish here, then order at the in-store kiosk or table ordering device. Show the Korean name to staff if you need help.'},
+ ja:{quickStart:'メニューを選ぶ',guideIntro:'ここで料理を選び、店内の券売・注文端末またはテーブルの端末でご注文ください。お困りの際は韓国語の料理名をスタッフにお見せください。'},
+ 'zh-Hans':{quickStart:'选择菜品',guideIntro:'在这里选好菜品后，请在店内自助点餐机或桌面点餐设备上下单。如需帮助，请将韩文菜名出示给店员。'}
+};
+for(const [lang,updates] of Object.entries(launchMessages))Object.assign(messages[lang],updates);

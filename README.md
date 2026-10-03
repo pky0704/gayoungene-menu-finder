@@ -46,3 +46,9 @@ Vercel은 Other 프레임워크, Build Command 비움, Output Directory dist로 
 - 배민 AI 실전캠프 제출: selfishclub/baemin-ops-os-camp 내 4조_박가영_가영이네 폴더
 
 검토 결과와 남은 작업은 REVIEW.md, AI 작업 규칙은 AGENTS.md와 CLAUDE.md에 기록합니다.
+
+
+## 첫 고객 사용 준비 (2026-10-03)
+
+사장님 확인 기준으로 아직 QR·링크를 손님에게 안내하지 않았고 실제 고객 사용·성과 기록은 없습니다. 맵기 빠른 선택, 사용 가능한 필터 우선 배치, 메뉴 카드의 직원용 화면 바로가기를 추가했습니다.
+매장용 A5 QR 안내물은 launch/menu-qr-a5.pdf, QR 원본은 launch/menu-qr.png, 첫 사용 기록 양식은 launch/first-use-notes.txt에 있습니다. 인쇄 후 휴대폰으로 주소와 언어 선택을 확인하고 매장에 부착하세요. 번호는 사이트 안내용이며 주문기기와 같다고 보장하지 않습니다.
