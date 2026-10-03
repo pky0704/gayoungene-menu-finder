@@ -19,7 +19,7 @@ assert.equal(count(),32);assert.equal($$('.recommendation-badge').length,7);asse
 assert.equal($$('.spice-0 svg,.spice-null svg').length,0);
 assert.ok($$('.spice-1').every(e=>e.querySelectorAll('svg').length===1));
 assert.ok($$('.spice-2').every(e=>e.querySelectorAll('svg').length===2));
-assert.equal($$('[data-avoid]:disabled').length,11);
+assert.equal($$('[data-avoid]:disabled').length,0);
 $('.filter-panel').open=true;await tick();
 const select=async(id,value)=>{$('[data-'+id+'="'+value+'"]').click();await tick();assert.equal($('.filter-panel').open,true);};
 const selected=id=>$('#'+id+' [aria-pressed="true"]').dataset[id];
@@ -30,7 +30,7 @@ await select('spice','2');assert.equal(count(),0);assert.ok($('.empty'));assert.
 $('[data-reset]').click();await tick();assert.equal(count(),32);assert.equal(selected('spice'),'');assert.equal(selected('country'),'all');
 await select('spice','1');$('[data-lang="ja"]').click();await tick();assert.equal(count(),4);assert.equal(selected('spice'),'1');assert.ok($('.filter-panel').open);assert.equal($('.filter-results').textContent,'4件のメニュー');
 $('[data-lang="zh-Hans"]').click();await tick();assert.equal($('.filter-results').textContent,'找到 4 道菜品');
-$('[data-avoid="pork"]').click();assert.equal(count(),4);
+$('[data-avoid="pork"]').click();assert.equal(count(),0);assert.equal($('[data-avoid="pork"]').getAttribute('aria-pressed'),'true');$('[data-avoid="pork"]').click();assert.equal(count(),4);
 const result=registered.execute({avoid:[],maxSpice:1});assert.equal(result.items.length,15);assert.equal(count(),15);await tick();assert.equal($('#spice [aria-pressed="true"]').textContent,'最多微辣');
 // Country selection and optional tool results must describe the same visible dishes.
 await select('country','JP');
@@ -78,7 +78,7 @@ $('[data-ingredient-help]').focus();$('[data-ingredient-help]').click();assert.e
 $('#detail [data-ingredient-question="meat"]').click();assert.ok($('#detail .staff-question [lang="ko"]').textContent.includes('고기나 생선'));
 $('#detail [data-lang="en"]').click();assert.ok($('#detail .staff-question'));$('#detail [data-ingredient-question="allergy"]').click();assert.ok($('#detail .staff-question [lang="ko"]').textContent.includes('교차 접촉'));
 $('#detail').dispatchEvent(new w.Event('cancel',{cancelable:true}));assert.ok(w.document.activeElement.hasAttribute('data-ingredient-help'));
-assert.equal($$('[data-avoid]:disabled').length,11);assert.equal(count(),32);
+assert.equal($$('[data-avoid]:disabled').length,0);assert.equal(count(),32);
 console.log('PASS Guided dish choices, back navigation, language retention, staff questions and focus restoration.');
 // A collapsed form must not hide active conditions or prevent selective clearing.
 for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
@@ -113,13 +113,13 @@ for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
   assert.equal(buttons[3].querySelectorAll('.pepper-art svg').length,2);
  }
  assert.equal($$('#country .country-flag').length,3);
- assert.equal($$('.ingredient-options button:disabled .button-art svg').length,11);
+ assert.equal($$('.ingredient-options button:not(:disabled) .button-art svg').length,11);
  assert.ok($('#ingredient-filter-status').textContent);
  $('[data-ingredient-contact]').focus();$('[data-ingredient-contact]').click();
  $('#detail [data-lang="en"]').click();$('#detail [data-close]').click();
  assert.ok(w.document.activeElement.hasAttribute('data-ingredient-contact'));
 }
-console.log('PASS Illustrated exact-spice buttons, flags, disabled ingredient icons and contextual help focus.');
+console.log('PASS Illustrated exact-spice buttons, flags, enabled ingredient icons and contextual help focus.');
 for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
  $('[data-lang="'+lang+'"]').click();$('[data-reset]').click();
  assert.equal(count(),32);assert.equal(w.document.documentElement.lang,lang);
@@ -131,4 +131,18 @@ for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
  $('[data-home]').click();
 }
 console.log('PASS Seven languages: complete menus, recommendations, Korean staff names, guided picks and store pages.');
+for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
+ $('[data-lang="'+lang+'"]').click();$('[data-reset]').click();
+ for(const key of ['pork','beef','chicken','fish','squid','shrimp','egg','dairy','wheat','soy','sesame']){
+  const selector='[data-avoid="'+key+'"]';$(selector).click();
+  assert.equal(count(),0);assert.equal($(selector).getAttribute('aria-pressed'),'true');
+  assert.ok($('.empty h2').textContent.trim());assert.ok($('.empty [data-ingredient-help]'));
+  $(selector).click();assert.equal(count(),32);
+ }
+ $('[data-avoid="pork"]').click();$('[data-avoid="egg"]').click();
+ assert.equal($$('.ingredient-options [aria-pressed="true"]').length,2);
+ $('[data-clear-filter="avoid-pork"]').click();assert.equal(count(),0);assert.equal($('[data-avoid="egg"]').getAttribute('aria-pressed'),'true');
+ $('[data-reset]').click();assert.equal(count(),32);
+}
+console.log('PASS All 11 ingredient buttons toggle in seven languages; unknowns never match, multi-select and reset work.');
 dom.window.close();

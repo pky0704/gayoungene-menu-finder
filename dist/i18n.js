@@ -60,3 +60,14 @@ Object.assign(messages.en,{recommended:'Recommended',tteok:'Chewy Cakes & Noodle
 Object.assign(messages.ja,{recommended:'おすすめ',tteok:'韓国もち・ラーメン',meals:'韓国海苔巻き・ご飯もの',sundae:'韓国ソーセージ',dessert:'かき氷・デザート'});
 Object.assign(messages['zh-Hans'],{recommended:'推荐'});
 Object.assign(messages,extraMessages);
+
+const avoidanceMessages={
+ en:['No verified matches yet','We have not yet confirmed dishes without your selected ingredients. This does not mean every dish contains them. Ask staff about ingredients or clear your filters.'],
+ ja:['不使用を確認できたメニューはありません','選んだ食材を含まないメニューは、まだ確認できていません。すべての料理に含まれるという意味ではありません。スタッフに確認するか、条件を解除してください。'],
+ 'zh-Hans':['暂无已确认不含所选食材的菜品','我们尚未确认哪些菜品不含您选择的食材。这不代表所有菜品都含有这些食材。请咨询店员或清除筛选条件。'],
+ vi:['Chưa có món được xác nhận phù hợp','Chưa xác nhận được món không chứa các nguyên liệu bạn chọn. Điều này không có nghĩa là mọi món đều chứa chúng. Hãy hỏi nhân viên hoặc bỏ bộ lọc.'],
+ mn:['Тохирох нь баталгаажсан хоол одоогоор алга','Сонгосон орцыг агуулаагүй хоолыг хараахан баталгаажуулаагүй. Энэ нь бүх хоолонд тухайн орц байдаг гэсэн үг биш. Ажилтнаас асуух эсвэл шүүлтүүрээ арилгана уу.'],
+ id:['Belum ada kecocokan terverifikasi','Kami belum memastikan hidangan yang tidak mengandung bahan pilihan Anda. Ini bukan berarti semua hidangan mengandungnya. Tanyakan kepada staf atau hapus filter.'],
+ fr:['Aucun résultat vérifié pour le moment','Nous n’avons pas encore confirmé de plats sans les ingrédients sélectionnés. Cela ne signifie pas que tous les plats en contiennent. Demandez au personnel ou effacez les filtres.']
+};
+for(const [lang,[title,help]] of Object.entries(avoidanceMessages))Object.assign(messages[lang],{noVerifiedResults:title,noVerifiedResultsHelp:help});

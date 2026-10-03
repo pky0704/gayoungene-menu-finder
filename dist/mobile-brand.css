@@ -45,3 +45,5 @@
 @media(max-width:359px){.header-tools .language-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 @media(max-width:899px){.primary-nav{height:76px}.primary-nav button{min-height:0}.category-nav{top:76px}html{scroll-padding-top:170px}.menu-section{scroll-margin-top:150px}}
+
+.ingredient-options .illustrated-choice[aria-pressed=true]{border-color:var(--accent)}
