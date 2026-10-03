@@ -81,7 +81,7 @@ $('#detail').dispatchEvent(new w.Event('cancel',{cancelable:true}));assert.ok(w.
 assert.equal($$('[data-avoid]:disabled').length,11);assert.equal(count(),32);
 console.log('PASS Guided dish choices, back navigation, language retention, staff questions and focus restoration.');
 // A collapsed form must not hide active conditions or prevent selective clearing.
-for(const lang of ['en','ja','zh-Hans']){
+for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
  $('[data-lang="'+lang+'"]').click();$('[data-reset]').click();
  await select('spice','0');await select('country','JP');
  $('.filter-panel').open=false;await tick();
@@ -94,15 +94,15 @@ for(const lang of ['en','ja','zh-Hans']){
  assert.equal(count(),32);assert.equal($('.active-filters'),null);assert.ok(w.document.activeElement.hasAttribute('data-quick-spice'));
  assert.equal($('#app [data-ingredient-help]').closest('details'),null);
  $('[data-ingredient-help]').click();assert.ok($('#detail').open);$('#detail [data-close]').click();
- assert.equal($$('#app [data-lang]').length,3);
+ assert.equal($$('#app [data-lang]').length,7);
 }
 // Maximum-level integrations must not be mislabeled as exact-level filters.
 registered.execute({avoid:['pork'],maxSpice:1});
 assert.equal(count(),0);assert.ok($('[data-clear-filter="spice"]'));
 $('[data-clear-filter="avoid-pork"]').click();assert.equal(count(),15);
 $('[data-clear-filter="spice"]').click();assert.equal(count(),32);
-console.log('PASS Visible filter chips clear one condition, preserve remaining filters and collapsed state, restore focus, and expose ingredient help in three languages.');
-for(const lang of ['en','ja','zh-Hans']){
+console.log('PASS Visible filter chips clear one condition, preserve remaining filters and collapsed state, restore focus, and expose ingredient help in seven languages.');
+for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
  $('[data-lang="'+lang+'"]').click();
  assert.equal($$('select').length,0);
  for(const scope of ['#spice','.quick-spice']){
@@ -120,4 +120,15 @@ for(const lang of ['en','ja','zh-Hans']){
  assert.ok(w.document.activeElement.hasAttribute('data-ingredient-contact'));
 }
 console.log('PASS Illustrated exact-spice buttons, flags, disabled ingredient icons and contextual help focus.');
+for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
+ $('[data-lang="'+lang+'"]').click();$('[data-reset]').click();
+ assert.equal(count(),32);assert.equal(w.document.documentElement.lang,lang);
+ assert.ok(!$('#app').textContent.includes('undefined'));assert.equal($$('.dish .description').filter(e=>e.textContent.trim()).length,32);
+ assert.ok($$('.recommendation-badge').every(e=>e.textContent.trim().length>1));
+ $('[data-detail="M018"]').click();assert.ok($('#detail-title').textContent.trim());$('#detail [data-staff]').click();assert.ok($('#detail-title').textContent.includes('가영이김밥'));$('#detail [data-close]').click();
+ $('[data-guide]').click();$('#detail [data-guide-spice="0"]').click();assert.equal($$('#detail .guide-choice').length,3);$('#detail [data-close]').click();
+ for(const page of ['how','visit']){$('[data-page="'+page+'"]').click();assert.ok($$('.information-block p').every(e=>e.textContent.trim()));}
+ $('[data-home]').click();
+}
+console.log('PASS Seven languages: complete menus, recommendations, Korean staff names, guided picks and store pages.');
 dom.window.close();

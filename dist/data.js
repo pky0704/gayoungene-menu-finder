@@ -1,3 +1,4 @@
+import {descriptiveNames,menuTranslations,unitTranslations,storeTranslations} from './menu-translations.js?v=20261004-languages';
 export const sourceUpdated='2026-10-02';
 export const dishes=[
   {
@@ -1559,3 +1560,15 @@ export function filterDishes(data,f,{recs=null}={}){return data.filter(d=>d.avai
 
 // Owner-selected recommended menu badges, confirmed 2026-10-02.
 export const recommendedMenuIds=['M006','M010','M019','M018','M021','M023','M034'];
+
+// Presentation copy is separate from the approved source facts above.
+const addedLanguages=['vi','mn','id','fr'];
+for(const dish of dishes){
+ for(const [index,lang] of ['en','ja','zh-Hans'].entries())dish.names[lang]=descriptiveNames[dish.id][index];
+ for(const [index,lang] of addedLanguages.entries()){
+  const [name,description]=menuTranslations[lang][dish.id];
+  dish.names[lang]=name;dish.descriptions[lang]=description;
+  dish.units[lang]=unitTranslations[dish.units.en]?.[index]??dish.units.en;
+ }
+}
+for(const row of storeInfo)for(const [index,lang] of addedLanguages.entries())row[lang]=storeTranslations[row.key][index];

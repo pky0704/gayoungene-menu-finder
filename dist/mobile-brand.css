@@ -38,3 +38,10 @@
 
 .gift-event{display:flex;align-items:center;gap:14px;padding:16px 18px;margin-bottom:20px;background:var(--soft);border:1px solid #ffc79e;border-left:4px solid var(--accent);border-radius:14px}.gift-event-art{flex:0 0 40px;width:40px;height:40px;color:var(--accent)}.gift-event>div{min-width:0}.gift-event-label{font-size:.6875rem;font-weight:700;letter-spacing:.04em;color:#a64100;margin:0 0 5px}.gift-event h2{font-size:1rem;line-height:1.45;margin:0;overflow-wrap:anywhere}.gift-event-note{font-size:.8125rem;line-height:1.5;color:var(--muted);margin:5px 0 0}
 @media(max-width:580px){.gift-event{gap:10px;padding:14px 12px}.gift-event-art{flex-basis:32px;width:32px;height:32px}.gift-event h2{font-size:.9375rem}}
+
+/* Seven native language names wrap without horizontal scrolling. */
+.header-tools{min-width:0;max-width:600px}.language-buttons{min-width:0}.dialog-top .language-buttons{flex:1}.dialog-top{align-items:flex-start}.close-button{position:sticky;top:10px}
+@media(max-width:580px){.header-tools{width:100%;max-width:none}.header-tools .language-buttons{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;gap:3px}.header-tools .language-buttons button{padding:8px 4px}.dialog-top .language-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px}.dialog-top .language-buttons button{padding:6px 3px;font-size:.75rem}}
+@media(max-width:359px){.header-tools .language-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+@media(max-width:899px){.primary-nav{height:76px}.primary-nav button{min-height:0}.category-nav{top:76px}html{scroll-padding-top:170px}.menu-section{scroll-margin-top:150px}}

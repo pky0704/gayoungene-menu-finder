@@ -1,8 +1,8 @@
-import {storeLinks} from './store-links.js?v=20261004-event';
-import {flags,lockArt} from './filter-art.js?v=20261004-event';
-import {getGuideChoices} from './guide.js?v=20261004-event';
-import {languages,messages} from './i18n.js?v=20261004-event';
-import {dishes,categories,ingredientKeys,storeInfo,recommendations,recommendedMenuIds,filterDishes} from './data.js?v=20261004-event';
+import {storeLinks} from './store-links.js?v=20261004-languages';
+import {flags,lockArt} from './filter-art.js?v=20261004-languages';
+import {getGuideChoices} from './guide.js?v=20261004-languages';
+import {languages,messages} from './i18n.js?v=20261004-languages';
+import {dishes,categories,ingredientKeys,storeInfo,recommendations,recommendedMenuIds,filterDishes} from './data.js?v=20261004-languages';
 import {icons} from './icons.js?v=20261002-final';
 const app=document.querySelector('#app'),dialog=document.querySelector('#detail');
 const state={lang:'en',page:'menu',avoid:[],spice:null,spiceMode:'exact',category:'all',country:'all',selected:null,dialogMode:'detail',filtersOpen:false};
@@ -13,7 +13,7 @@ const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 const t=k=>messages[state.lang][k]??messages.en[k]??k;
 const icon=k=>icons[k]??'';
 const recommendedIds=new Set(recommendedMenuIds);
-const recommendedLabel=()=>({en:'Recommended',ja:'おすすめ','zh-Hans':'推荐'})[state.lang];
+const recommendedLabel=()=>t('recommended');
 const recommendationBadge=d=>recommendedIds.has(d.id)?`<span class="recommendation-badge">${icon('star')}<span>${recommendedLabel()}</span></span>`:'';
 const info=k=>storeInfo.find(x=>x.key===k)?.[state.lang]??'';
 const spice=d=>d.spiceLevel===null?t('unknownSpice'):t(['notSpicy','mild','spicy'][d.spiceLevel]);
