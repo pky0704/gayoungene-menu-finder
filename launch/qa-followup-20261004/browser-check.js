@@ -1,0 +1,47 @@
+(async () => {
+  const $ = s => document.querySelector(s);
+  const all = s => [...document.querySelectorAll(s)];
+  let checks = 0;
+  const ok = (v, label) => { if (!v) throw Error(label); checks++; };
+  const settle = () => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+  const click = async s => { $(s).focus(); $(s).click(); await settle(); };
+  const select = async (s, value) => { $(s).value=value; $(s).dispatchEvent(new Event('change',{bubbles:true})); await settle(); };
+  const layout = () => ok(document.documentElement.scrollWidth<=document.documentElement.clientWidth,'horizontal overflow');
+  if ($('#detail').open) await click('#detail [data-close]');
+  for (const lang of ['en','ja','zh-Hans']) {
+    await click('#app [data-lang="'+lang+'"]');
+    await click('[data-reset]');
+    $('.filter-panel').open=false; await settle();
+    window.scrollTo({top:0,behavior:'instant'}); await settle();
+    ok(all('#app [data-lang]').length===3,'one language selector');
+    ok(!$('[data-ingredient-help]').closest('details'),'ingredient help outside filters');
+    for (const el of all('.quick-actions button,.quick-spice button,.header-tools button')) ok(el.getBoundingClientRect().height>=44,'button touch height');
+    if (innerWidth===390 && lang==='en') ok($('.food-photo').getBoundingClientRect().top<720,'first photo visible');
+    layout();
+    await select('#spice','0'); await select('#country','JP');
+    $('.filter-panel').open=false; await settle();
+    ok(all('.dish').length===3,'intersection');
+    ok(all('[data-clear-filter]').length===2,'two visible filter chips');
+    ok(all('[data-clear-filter]').every(b=>b.checkVisibility()),'chips outside collapsed form');
+    await click('[data-clear-filter="spice"]');
+    ok($('#country').value==='JP' && $('#spice').value==='','clear only spice');
+    ok(!$('.filter-panel').open,'preserve collapsed form');
+    ok(document.activeElement.dataset.clearFilter==='country','focus on remaining chip');
+    await click('[data-clear-filter="country"]');
+    ok(all('.dish').length===32 && !$('.active-filters'),'all dishes restored');
+    ok(document.activeElement.hasAttribute('data-quick-spice'),'focus after last chip');
+    await click('[data-ingredient-help]');
+    await click('[data-ingredient-question="meat"]');
+    ok($('#detail .staff-question [lang="ko"]').textContent.includes('육수'),'Korean question');
+    ok($('#detail').scrollWidth<=$('#detail').clientWidth,'question fits');
+    await click('#detail [data-lang="'+(lang==='en'?'ja':'en')+'"]');
+    await click('#detail [data-close]');
+    ok(document.activeElement.hasAttribute('data-ingredient-help'),'help focus after language switch');
+    ok(all('[data-avoid]:disabled').length===11,'ingredient exclusions remain disabled');
+    ok(all('.dish .ingredients-block .ingredient-note').length===32,'unknown ingredient guidance near icons');
+    layout();
+  }
+  await click('#app [data-lang="en"]');
+  window.scrollTo({top:0,behavior:'instant'});
+  return {checks,width:innerWidth,height:innerHeight};
+})();

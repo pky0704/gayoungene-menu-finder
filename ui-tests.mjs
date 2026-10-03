@@ -79,4 +79,26 @@ $('#detail [data-lang="en"]').click();assert.ok($('#detail .staff-question'));$(
 $('#detail').dispatchEvent(new w.Event('cancel',{cancelable:true}));assert.ok(w.document.activeElement.hasAttribute('data-ingredient-help'));
 assert.equal($$('[data-avoid]:disabled').length,11);assert.equal(count(),32);
 console.log('PASS Guided dish choices, back navigation, language retention, staff questions and focus restoration.');
+// A collapsed form must not hide active conditions or prevent selective clearing.
+for(const lang of ['en','ja','zh-Hans']){
+ $('[data-lang="'+lang+'"]').click();$('[data-reset]').click();
+ await select('spice','0');await select('country','JP');
+ $('.filter-panel').open=false;await tick();
+ assert.equal(count(),3);assert.equal($$('[data-clear-filter]').length,2);
+ assert.ok($('[data-clear-filter="country"]').getAttribute('aria-label'));
+ $('[data-clear-filter="spice"]').click();await tick();
+ assert.equal($('#country').value,'JP');assert.equal($('#spice').value,'');assert.equal(count(),3);
+ assert.equal($('.filter-panel').open,false);assert.equal(w.document.activeElement.dataset.clearFilter,'country');
+ $('[data-clear-filter="country"]').click();await tick();
+ assert.equal(count(),32);assert.equal($('.active-filters'),null);assert.ok(w.document.activeElement.hasAttribute('data-quick-spice'));
+ assert.equal($('#app [data-ingredient-help]').closest('details'),null);
+ $('[data-ingredient-help]').click();assert.ok($('#detail').open);$('#detail [data-close]').click();
+ assert.equal($$('#app [data-lang]').length,3);
+}
+// Maximum-level integrations must not be mislabeled as exact-level filters.
+registered.execute({avoid:['pork'],maxSpice:1});
+assert.equal(count(),0);assert.ok($('[data-clear-filter="spice"]'));
+$('[data-clear-filter="avoid-pork"]').click();assert.equal(count(),15);
+$('[data-clear-filter="spice"]').click();assert.equal(count(),32);
+console.log('PASS Visible filter chips clear one condition, preserve remaining filters and collapsed state, restore focus, and expose ingredient help in three languages.');
 dom.window.close();

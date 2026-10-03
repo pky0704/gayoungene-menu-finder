@@ -10,7 +10,7 @@ export const dishes=[
       "zh-Hans": "1988经典韩式辣炒年糕"
     },
     "descriptions": {
-      "en": "Chewy rice-flour or wheat-flour tteok and fish cakes cooked in a sweet and spicy gochujang sauce.",
+      "en": "Chewy rice or wheat cakes (tteok) and fish cakes in a sweet and spicy Korean chili sauce.",
       "ja": "米または小麦のトックと韓国おでんを、甘辛いコチュジャンソースで煮込んだトッポッキです。",
       "zh-Hans": "将米制或小麦制年糕与鱼饼一起，用甜辣韩式辣椒酱烹制。"
     },
@@ -105,7 +105,7 @@ export const dishes=[
       "zh-Hans": "辣炒年糕拉面"
     },
     "descriptions": {
-      "en": "Tteok and ramyeon noodles in sweet and spicy sauce, with fish cakes, boiled egg, spring onion and sesame seeds.",
+      "en": "Tteok (chewy Korean cakes) and instant noodles in a sweet and spicy sauce, with fish cakes, boiled egg, spring onion and sesame seeds.",
       "ja": "トックとインスタント麺に、韓国おでん、ゆで卵、長ねぎ、ごまを加えた甘辛いメニューです。",
       "zh-Hans": "甜辣年糕和方便面，加入鱼饼、水煮蛋、大葱及芝麻。"
     },
@@ -434,7 +434,7 @@ export const dishes=[
       "zh-Hans": "鸡蛋蔬菜紫菜包饭（少米饭）"
     },
     "descriptions": {
-      "en": "A Korean seaweed rice roll with less rice and plenty of egg, braised burdock root, vegetables and pickled radish.",
+      "en": "A rice roll wrapped in seaweed, with less rice and plenty of egg, burdock root cooked in sauce, vegetables and pickled radish.",
       "ja": "ご飯を少なめにし、卵焼きの細切り、ごぼうの甘辛煮、野菜、たくあんを詰めたキンパです。",
       "zh-Hans": "减少米饭用量，包入鸡蛋丝、酱煮牛蒡、蔬菜及腌萝卜。"
     },
@@ -674,7 +674,7 @@ export const dishes=[
       "zh-Hans": "韩式米肠（可选内脏）"
     },
     "descriptions": {
-      "en": "Chewy Korean sundae sausage steamed in a cauldron, with a choice of sausage and offal proportions.",
+      "en": "Steamed Korean sausage. Choose how much sausage and organ meat you would like.",
       "ja": "大釜で蒸した、もちもちとした韓国式スンデです。スンデと内臓の割合を選べます。",
       "zh-Hans": "用大锅蒸制的弹韧韩式米肠。可选择米肠与内脏的搭配比例。"
     },
