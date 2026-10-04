@@ -2,13 +2,14 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const base=path.dirname(fileURLToPath(import.meta.url)), root=path.dirname(base), out=path.join(base,'build');
+if(path.dirname(path.resolve(out))!==path.resolve(base)||path.basename(out)!=='build')throw new Error('Build output must stay inside official/build');
 await fs.rm(out,{recursive:true,force:true});await fs.mkdir(out,{recursive:true});
 await fs.cp(path.join(base,'src'),out,{recursive:true});
 await fs.cp(path.join(base,'assets'),path.join(out,'assets'),{recursive:true});
 await fs.cp(path.join(root,'dist'),path.join(out,'menu'),{recursive:true});
 await fs.copyFile(path.join(root,'dist/assets/brand-icon/gayoungene-32.png'),path.join(out,'assets/favicon.png'));
 const assets={};
-for(const name of ['mallang-poster.jpg','mother-daughter.jpg','learning-wall.jpg']){
+for(const name of ['mallang-poster.jpg','mother-daughter.jpg','learning-wall.jpg','mallang-gayoung.png','rabbit-companion.png']){
  try{await fs.copyFile(path.join(base,'private-assets',name),path.join(out,'assets',name));assets[name]=true;}catch(e){if(e.code!=='ENOENT')throw e;assets[name]=false;}
 }
 await fs.writeFile(path.join(out,'asset-state.js'),`export const assets=${JSON.stringify(assets)};\n`);

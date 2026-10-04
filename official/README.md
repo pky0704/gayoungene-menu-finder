@@ -39,6 +39,14 @@ npm run test:browser --prefix official
 
 The browser suite starts its own server. CHROMIUM_EXECUTABLE_PATH optionally selects an installed browser. It covers 72 language/width combinations and key interactions.
 
+2026-10-04 desktop continuation
+
+The approved private assets live in official/private-assets, which is ignored by Git. Restore mother-daughter.jpg, mallang-poster.jpg, learning-wall.jpg, mallang-gayoung.png and rabbit-companion.png there before building. The handoff archive's assets/ prefix is packaging, not an additional repository directory. No original or generated private asset, reference guide, screenshot or upload bundle should be committed.
+
+Set REQUIRE_PRIVATE_ASSETS=1 when running invariants and browser tests for deployment to require all five files. The browser checks also cover character descriptions, complete image loading, contain sizing, reduced motion, French menu preservation and staff screens. OFFICIAL_BASE_URL can target an already deployed site. VERIFY_EXTERNAL=1 additionally opens the remote prepay application when the test browser has external network access; otherwise verify the 307 locally and the destination in the app browser.
+
+After building and checking, node official/package-static.mjs creates a new ignored tmp/official-deploy-* directory containing the complete static bundle with the official redirects and security headers. Upload only that directory or its contents as a ZIP to the existing official project. The packaging command does not deploy. Vercel authentication and live verification are required before reporting an update.
+
 For static dashboard upload, package the reviewed contents of official/build with the redirects, rewrites and headers from official/vercel.json. Static upload settings use buildCommand: null, installCommand: null and outputDirectory: ".". The current deployed bundle contains 88 files.
 
 For future CLI deployment, confirm the linked project and team before using official/vercel.json. Do not reuse the menu or prepay project IDs. Follow https://vercel.com/docs/cli/build and https://vercel.com/docs/cli/deploy for prebuilt deployment.
