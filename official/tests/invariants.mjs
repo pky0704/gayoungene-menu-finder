@@ -15,5 +15,6 @@ assert.equal(config.redirects[0].destination,'https://gayoungene-prepay.vercel.a
 assert.equal(config.redirects[0].permanent,false);
 assert.equal(config.outputDirectory,'official/build');
 const assets=fs.readdirSync(new URL('../build/assets/',import.meta.url));
+assert.ok(!assets.includes('guests-privacy-edited.png'));
 assert.ok(!assets.some(x=>/welcome-illustration|shared-table|image\(2\)/.test(x)));
 console.log('PASS official invariants: locale order/completeness, unchanged menu facts, exact original logo, safe prepay route and asset exclusions.');

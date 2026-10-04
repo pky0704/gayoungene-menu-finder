@@ -8,7 +8,7 @@ await fs.cp(path.join(base,'assets'),path.join(out,'assets'),{recursive:true});
 await fs.cp(path.join(root,'dist'),path.join(out,'menu'),{recursive:true});
 await fs.copyFile(path.join(root,'dist/assets/brand-icon/gayoungene-32.png'),path.join(out,'assets/favicon.png'));
 const assets={};
-for(const name of ['mallang-poster.jpg','guests-privacy-edited.png','mother-daughter.jpg','learning-wall.jpg']){
+for(const name of ['mallang-poster.jpg','mother-daughter.jpg','learning-wall.jpg']){
  try{await fs.copyFile(path.join(base,'private-assets',name),path.join(out,'assets',name));assets[name]=true;}catch(e){if(e.code!=='ENOENT')throw e;assets[name]=false;}
 }
 await fs.writeFile(path.join(out,'asset-state.js'),`export const assets=${JSON.stringify(assets)};\n`);

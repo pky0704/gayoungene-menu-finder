@@ -6,4 +6,6 @@
 - 브랜드 원문: [STORY-COPY.md](STORY-COPY.md)
 - 초기 기획과 조사 기록: [PRD.md](PRD.md) — 최신 경로·이미지 결정은 CURRENT.md가 우선한다.
 
-Namecheap 도메인 `gayoungene.com`은 구매 완료로 확인했다. Vercel 팀 접근 오류 때문에 임시 배포와 DNS 연결은 아직 완료하지 않았다. 이전 `/official/` 개발 경로, 가게 앞 합성 일러스트 지시는 폐기되었다.
+Namecheap 도메인 `gayoungene.com`은 사용자에 따르면 구매 완료·Active 상태다. 임시 검수 사이트는 배포됐고, 공식 도메인과 DNS 연결은 아직 하지 않았다. 이전 `/official/` 개발 경로는 현재 구조가 아니다.
+
+데스크탑 Codex에서 이어서 작업할 때는 [CODEX_START.md](CODEX_START.md)를 먼저 읽는다.
