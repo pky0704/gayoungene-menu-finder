@@ -56,5 +56,5 @@ for(const page of ['home','menu']) for(const lang of page==='menu'?[...locales,'
 }
 const sitemap=fs.readFileSync(new URL('../build/sitemap.xml',import.meta.url),'utf8');
 assert.equal((sitemap.match(/<loc>/g)||[]).length,19);
-assert.ok(!sitemap.includes('gayoungene.com'));
+assert.ok(sitemap.includes('<loc>'+siteOrigin+'/</loc>'));
 console.log('PASS unified site: '+pages+' readable static pages, shared navigation, exact prices, schema, flags, official social links and secondary external prepay.');

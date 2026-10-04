@@ -1,1 +1,1 @@
-export const siteOrigin='https://gayoungene-official.vercel.app';
+export const siteOrigin='https://www.gayoungene.com';
