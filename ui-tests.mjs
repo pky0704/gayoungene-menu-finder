@@ -44,8 +44,10 @@ desktop=false;$('[data-page="menu"]').click();$('#category-menu').open=true;
 $('[data-category="fried"]').click();assert.equal($('#category-menu').open,false);
 // Dialog modes, language switching, Escape cleanup, photo and information pages.
 $('[data-detail="M006"]').focus();$('[data-detail="M006"]').click();assert.ok($('#detail').open);assert.equal(new URL(w.location).searchParams.get('menu'),'M006');
-$('#detail [data-lang="ja"]').click();assert.ok($('#detail-title').textContent);assert.equal(w.document.activeElement.dataset.lang,'ja');
+$('#detail [data-lang="ja"]').click();assert.ok($('#detail-title').textContent);assert.equal(w.document.documentElement.lang,'ja');assert.equal(w.document.activeElement,$('#detail .language-picker summary'));assert.equal($('#detail .language-picker').open,false);
 $('#detail [data-staff]').click();assert.ok($('#detail-title').textContent.includes('떡볶이'));
+assert.equal($('#detail .price').textContent,'₩5,000');assert.equal($('#detail-title span[lang]').lang,'ko');
+$('#detail .language-picker').open=true;const pickerEscape=new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true});$('#detail .language-picker summary').dispatchEvent(pickerEscape);assert.equal($('#detail .language-picker').open,false);assert.ok($('#detail').open);assert.equal(pickerEscape.defaultPrevented,true);
 $('#detail').dispatchEvent(new w.Event('cancel',{cancelable:true}));assert.equal($('#detail').open,false);assert.equal(new URL(w.location).searchParams.has('menu'),false);assert.equal(w.document.activeElement.dataset.detail,'M006');
 $('[data-photo="M006"]').click();assert.ok($('#detail .expanded-photo'));$('#detail [data-close]').click();
 for(const [page,n] of [['how',5],['visit',2]]){$('[data-page="'+page+'"]').click();assert.equal($$('.information-block').length,n);}
@@ -91,7 +93,7 @@ for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
  assert.equal(selected('country'),'JP');assert.equal(selected('spice'),'');assert.equal(count(),3);
  assert.equal($('.filter-panel').open,false);assert.equal(w.document.activeElement.dataset.clearFilter,'country');
  $('[data-clear-filter="country"]').click();await tick();
- assert.equal(count(),32);assert.equal($('.active-filters'),null);assert.ok(w.document.activeElement.hasAttribute('data-country'));
+ assert.equal(count(),32);assert.equal($('.active-filters'),null);assert.equal(w.document.activeElement,$('#country-recommendations summary'));
  assert.equal($('#app [data-ingredient-help]').closest('details'),null);
  $('[data-ingredient-help]').click();assert.ok($('#detail').open);$('#detail [data-close]').click();
  assert.equal($$('#app [data-lang]').length,7);
@@ -162,7 +164,7 @@ console.log('PASS Staff ingredient requests, estimated status, empty result reco
 // Country choices remain visible outside Find a menu; flags supplement native labels.
 for(const lang of ['en','ja','zh-Hans','vi','mn','id','fr']){
  $('[data-lang="'+lang+'"]').click();$('[data-reset]').click();$('.filter-panel').open=false;await tick();
- assert.equal($('#country').closest('details'),null);assert.equal($$('.filter-panel [data-country]').length,0);
+ assert.equal($('#country').closest('details').id,'country-recommendations');assert.equal($$('.filter-panel [data-country]').length,0);
  assert.equal($$('[data-quick-spice]').length,0);
  for(const button of $$('#app [data-lang]')){assert.equal(button.querySelectorAll('.country-flag').length,1);assert.ok(button.textContent.trim());}
  for(const [country,expected] of [['JP',3],['VN',1],['MN',1],['all',32]]){

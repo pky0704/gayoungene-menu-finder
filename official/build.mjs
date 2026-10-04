@@ -23,7 +23,7 @@ if(assets['cursor-image.png']){
 }
 let menu=await fs.readFile(path.join(out,'menu/index.html'),'utf8');
 menu=menu.replace('<head>','<head>\n  <base href="/menu/">').replaceAll('https://gayoungene-menu-finder.vercel.app/','https://gayoungene.com/menu/');
-menu=menu.replace('</head>','<link rel="stylesheet" href="/menu-shell.css"><link rel="stylesheet" href="/cursor.css"><script type="module" src="/menu-shell.js"></script></head>');
+menu=menu.replace('</head>','<link rel="stylesheet" href="/menu-shell.css"><link rel="stylesheet" href="/cursor.css"><link rel="stylesheet" href="/back-to-top.css"><script type="module" src="/menu-shell.js"></script><script type="module" src="/back-to-top.js"></script></head>');
 await fs.writeFile(path.join(out,'menu/index.html'),menu);
 await fs.copyFile(path.join(base,'menu-locales.js'),path.join(out,'menu/official-locales.js'));
 let app=await fs.readFile(path.join(out,'menu/app.js'),'utf8');
