@@ -16,7 +16,7 @@ const hash=p=>createHash('sha256').update(fs.readFileSync(new URL(p,import.meta.
 assert.equal(hash('../build/assets/logo.png'),hash('../../dist/assets/gayoungene-logo.png'));
 assert.equal(hash('../build/assets/favicon.png'),hash('../../dist/assets/brand-icon/gayoungene-32.png'));
 for(const [name,exists] of Object.entries(assetState))if(exists)assert.equal(hash('../build/assets/'+name),hash('../private-assets/'+name));
-if(process.env.REQUIRE_PRIVATE_ASSETS==='1')assert.ok(Object.values(assetState).every(Boolean),'All five approved assets required for deployment');
+if(process.env.REQUIRE_PRIVATE_ASSETS==='1')assert.ok(Object.values(assetState).every(Boolean),'All approved assets required for deployment');
 assert.ok(messages.fr&&after.every(dish=>dish.names.fr),'Preserve French menu');
 const config=JSON.parse(fs.readFileSync(new URL('../vercel.json',import.meta.url)));
 assert.equal(config.redirects[0].destination,'https://gayoungene-prepay.vercel.app/:path*');

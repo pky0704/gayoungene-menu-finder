@@ -9,13 +9,20 @@ await fs.cp(path.join(base,'assets'),path.join(out,'assets'),{recursive:true});
 await fs.cp(path.join(root,'dist'),path.join(out,'menu'),{recursive:true});
 await fs.copyFile(path.join(root,'dist/assets/brand-icon/gayoungene-32.png'),path.join(out,'assets/favicon.png'));
 const assets={};
-for(const name of ['mallang-poster.jpg','mother-daughter.jpg','learning-wall.jpg','mallang-gayoung.png','rabbit-companion.png']){
+for(const name of ['mallang-poster.jpg','mother-daughter.jpg','learning-wall.jpg','mallang-gayoung.png','rabbit-companion.png','cursor-logo.png']){
  try{await fs.copyFile(path.join(base,'private-assets',name),path.join(out,'assets',name));assets[name]=true;}catch(e){if(e.code!=='ENOENT')throw e;assets[name]=false;}
 }
 await fs.writeFile(path.join(out,'asset-state.js'),`export const assets=${JSON.stringify(assets)};\n`);
+if(assets['cursor-logo.png']){
+ const logo=(await fs.readFile(path.join(base,'private-assets/cursor-logo.png'))).toString('base64');
+ await fs.writeFile(path.join(out,'cursor.svg'),`<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><image x="2" y="2" width="36" height="36" preserveAspectRatio="xMidYMid meet" href="data:image/png;base64,${logo}"/></svg>`);
+}else{
+ // Public checkouts without the private artwork use the browser's native cursor.
+ await fs.writeFile(path.join(out,'cursor.css'),'');
+}
 let menu=await fs.readFile(path.join(out,'menu/index.html'),'utf8');
 menu=menu.replace('<head>','<head>\n  <base href="/menu/">').replaceAll('https://gayoungene-menu-finder.vercel.app/','https://gayoungene.com/menu/');
-menu=menu.replace('</head>','<link rel="stylesheet" href="/menu-shell.css"><script type="module" src="/menu-shell.js"></script></head>');
+menu=menu.replace('</head>','<link rel="stylesheet" href="/menu-shell.css"><link rel="stylesheet" href="/cursor.css"><script type="module" src="/menu-shell.js"></script></head>');
 await fs.writeFile(path.join(out,'menu/index.html'),menu);
 await fs.copyFile(path.join(base,'menu-locales.js'),path.join(out,'menu/official-locales.js'));
 let app=await fs.readFile(path.join(out,'menu/app.js'),'utf8');

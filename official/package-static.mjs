@@ -5,7 +5,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const base=path.dirname(fileURLToPath(import.meta.url));
 const {assets}=await import('./build/asset-state.js');
-if(Object.values(assets).length!==5||!Object.values(assets).every(Boolean))throw new Error('Restore all five approved private assets and rebuild before packaging');
+if(Object.values(assets).length!==6||!Object.values(assets).every(Boolean))throw new Error('Restore all six approved private assets and rebuild before packaging');
 const tmp=path.join(path.dirname(base),'tmp');
 await fs.mkdir(tmp,{recursive:true});
 const target=await fs.mkdtemp(path.join(tmp,'official-deploy-'));
