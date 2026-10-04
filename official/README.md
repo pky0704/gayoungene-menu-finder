@@ -41,7 +41,7 @@ The browser suite starts its own server. CHROMIUM_EXECUTABLE_PATH optionally sel
 
 2026-10-04 desktop continuation
 
-The approved private assets live in official/private-assets, which is ignored by Git. Restore mother-daughter.jpg, mallang-poster.jpg, learning-wall.jpg, mallang-gayoung.png rabbit-companion.png and cursor-logo.png there before building. The handoff archive's assets/ prefix is packaging, not an additional repository directory. No original or generated private asset, reference guide, screenshot or upload bundle should be committed.
+The approved private assets live in official/private-assets, which is ignored by Git. Restore mother-daughter.jpg, mallang-poster.jpg, learning-wall.jpg, mallang-gayoung.png rabbit-companion.png and cursor-image.png there before building. The handoff archive's assets/ prefix is packaging, not an additional repository directory. No original or generated private asset, reference guide, screenshot or upload bundle should be committed.
 
 Set REQUIRE_PRIVATE_ASSETS=1 when running invariants and browser tests for deployment to require all six files. The browser checks also cover character descriptions, complete image loading, contain sizing, reduced motion, French menu preservation and staff screens. OFFICIAL_BASE_URL can target an already deployed site. VERIFY_EXTERNAL=1 additionally opens the remote prepay application when the test browser has external network access; otherwise verify the 307 locally and the destination in the app browser.
 
