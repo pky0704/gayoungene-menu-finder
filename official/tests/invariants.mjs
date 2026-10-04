@@ -10,6 +10,8 @@ import {messages} from '../build/menu/i18n.js?v=20261004-country';import '../bui
 assert.deepEqual(Object.keys(languages),['ko','en','zh-Hans','ja','vi','mn','th','ru','id']);
 for(const lang of Object.keys(languages)){assert.ok(content[lang]&&extras[lang]);for(const dish of after){assert.ok(dish.names[lang]);assert.ok(dish.descriptions[lang]);assert.equal(typeof dish.units[lang],'string');}}
 assert.deepEqual(Object.keys(characters),Object.keys(languages));
+for(const lang of Object.keys(languages)){assert.deepEqual(Object.keys(content[lang]),Object.keys(content.ko));for(const text of Object.values(content[lang]))assert.ok(typeof text==='string'&&text.trim(),lang+': empty brand copy');assert.ok(content[lang].pauseMotion&&content[lang].playMotion);}
+
 assert.deepEqual(Object.keys(qaContent),Object.keys(languages));
 for(const lang of [...Object.keys(languages),'fr'])for(const value of Object.values(qaCopy[lang]))assert.ok(typeof value==='string'&&value.trim());
 for(const lang of Object.keys(languages))for(const key of Object.keys(qaContent.ko))assert.ok(qaContent[lang][key]?.trim(),lang+': '+key);

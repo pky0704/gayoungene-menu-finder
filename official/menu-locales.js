@@ -1,3 +1,4 @@
+import {content as brandContent} from '../content.js';
 // Locale extensions for the official site only. Legacy menu deployment is unchanged.
 import {languages,messages} from './i18n.js?v=20261004-country';
 import {dishes,storeInfo} from './data.js?v=20261004-country';
@@ -53,3 +54,8 @@ return:['식사 후 사용한 식기는 반납대에 놓아주세요.','ทา�
 hours:['월·수·목·금 11:00–14:00, 16:00–22:00.\n브레이크 14:00–16:00. 마지막 주문 14:00 / 22:00. 화요일 휴무.\n토·일·공휴일 16:00–22:00, 마지막 주문 22:00.\n서울 강북구 오패산로 397 1층','จันทร์ พุธ พฤหัสบดี ศุกร์ 11:00–14:00 และ 16:00–22:00\nพัก 14:00–16:00 รับออร์เดอร์สุดท้าย 14:00 และ 22:00\nหยุดอังคาร เสาร์ อาทิตย์ วันหยุด 16:00–22:00 ออร์เดอร์สุดท้าย 22:00\n397 Opaesan-ro, Gangbuk-gu, Seoul','Пн, Ср, Чт, Пт: 11:00–14:00 и 16:00–22:00.\nПерерыв 14:00–16:00. Последний заказ 14:00 и 22:00. Во вторник закрыто.\nСб, Вс и праздники: 16:00–22:00, последний заказ 22:00.\n397 Opaesan-ro, Gangbuk-gu, Сеул.'],
 changes:['재료를 빼거나 다른 재료로 바꾸기 어렵습니다.','ไม่สามารถนำวัตถุดิบออกหรือเปลี่ยนได้','Убрать или заменить ингредиенты нельзя.']};
 for(const row of storeInfo)['ko','th','ru'].forEach((l,i)=>row[l]=store[row.key][i]);
+
+// Keep the official menu's shop introduction aligned with the brand homepage.
+const brandIntroduction=storeInfo.find(row=>row.key==='intro');
+for(const [locale,copy] of Object.entries(brandContent))brandIntroduction[locale]=copy.heroText.replaceAll('\n',' ');
+brandIntroduction.fr='Gayoungene est une petite adresse de cuisine coréenne à Suyu, Séoul, tenue par une mère et sa fille. La mère cuisine depuis 2012 ; sa fille Gayoung a créé le nom et dessiné le logo. Depuis l’ouverture en 2022, elles cuisinent et vous accueillent ensemble.';
