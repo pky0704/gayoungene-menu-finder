@@ -15,7 +15,8 @@ for(const name of ['mallang-poster.jpg','mother-daughter.jpg','learning-wall.jpg
 await fs.writeFile(path.join(out,'asset-state.js'),`export const assets=${JSON.stringify(assets)};\n`);
 if(assets['cursor-logo.png']){
  const logo=(await fs.readFile(path.join(base,'private-assets/cursor-logo.png'))).toString('base64');
- await fs.writeFile(path.join(out,'cursor.svg'),`<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><image x="2" y="2" width="36" height="36" preserveAspectRatio="xMidYMid meet" href="data:image/png;base64,${logo}"/></svg>`);
+ // The owner's size reference has a 46px face, excluding its surrounding whitespace.
+ await fs.writeFile(path.join(out,'cursor.svg'),`<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50"><image x="2" y="2" width="46" height="46" preserveAspectRatio="xMidYMid meet" href="data:image/png;base64,${logo}"/></svg>`);
 }else{
  // Public checkouts without the private artwork use the browser's native cursor.
  await fs.writeFile(path.join(out,'cursor.css'),'');

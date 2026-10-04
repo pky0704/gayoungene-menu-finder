@@ -1,12 +1,12 @@
 /* Use the supplied logo unchanged, sized by its SVG wrapper. Touch stays native. */
 @media (hover: hover) and (pointer: fine) {
-  body { cursor: url('/cursor.svg') 20 20, auto; }
+  body { cursor: url('/cursor.svg?v=20261004-46') 25 25, auto; }
   html body :is(a, button, summary, select, label[for], [role='button']) {
-    cursor: url('/cursor.svg') 20 20, pointer;
+    cursor: url('/cursor.svg?v=20261004-46') 25 25, pointer;
   }
   input, textarea, [contenteditable='true'] { cursor: text; }
   input[type='checkbox'], input[type='radio'], input[type='range'] {
-    cursor: url('/cursor.svg') 20 20, pointer;
+    cursor: url('/cursor.svg?v=20261004-46') 25 25, pointer;
   }
   html body :disabled { cursor: not-allowed; }
 }
