@@ -1,5 +1,5 @@
-import {preferenceMessages} from './preference-messages.js?v=20261004-preferences';
-import {extraMessages} from './i18n-extra.js?v=20261004-preferences';
+import {preferenceMessages} from './preference-messages.js?v=20261004-country';
+import {extraMessages} from './i18n-extra.js?v=20261004-country';
 export const languages={en:'English',ja:'日本語','zh-Hans':'中文',vi:'Tiếng Việt',mn:'Монгол',id:'Indonesia',fr:'Français'};
 const keys=['menu','how','visit','categories','chooseLanguage','tteok','fried','meals','sundae','sides','dessert','drinks','ingredients','ingredientNote','details','close','zoom','photoPending','spice','notSpicy','mild','spicy','unknownSpice','seasonal','seasonNote','options','wheatOption','moreIngredients','pending','otherMeat','showStaff','staffNote','filters','avoid','filterHelp','all','reset','noResults','noResultsHelp','anySpice','upMild','recommendations','JP','VN','MN','order','delivery','self','return','hours','changes','intro','skip','translationNote','pork','beef','chicken','fish','squid','shrimp','egg','dairy','wheat','soy','sesame','contains','unknown','absent_verified'];
 const values={
@@ -74,3 +74,14 @@ const avoidanceMessages={
 for(const [lang,[title,help]] of Object.entries(avoidanceMessages))Object.assign(messages[lang],{noVerifiedResults:title,noVerifiedResultsHelp:help});
 
 for(const [lang,copy] of Object.entries(preferenceMessages))Object.assign(messages[lang],copy);
+
+const countryCopy={
+ en:['Menu picks by country','Tap a flag, pick a dish, then show staff. Choose any country!','Change country'],
+ ja:['国別おすすめメニュー','旗を選び、料理を選んでスタッフに見せましょう。どの国でも選べます。','国を選び直す'],
+ 'zh-Hans':['各国推荐菜单','点国旗、选菜品，再给店员看。任何国家都可以选！','重新选择国家'],
+ vi:['Gợi ý món theo quốc gia','Chọn cờ, chọn món rồi đưa cho nhân viên xem. Bạn có thể chọn bất kỳ quốc gia nào!','Chọn quốc gia khác'],
+ mn:['Улсаар санал болгох хоол','Далбаа, хоолоо сонгоод ажилтанд үзүүлээрэй. Аль ч улсыг сонгож болно!','Улсаа өөрчлөх'],
+ id:['Pilihan menu per negara','Pilih bendera, pilih hidangan, lalu tunjukkan ke staf. Bebas pilih negara mana saja!','Ganti negara'],
+ fr:['Idées de plats par pays','Choisissez un drapeau, un plat, puis montrez-le au personnel. Tous les pays sont au choix !','Changer de pays']
+};
+for(const [lang,[countryTitle,countryIntro,changeCountry]] of Object.entries(countryCopy))Object.assign(messages[lang],{countryTitle,countryIntro,changeCountry});
