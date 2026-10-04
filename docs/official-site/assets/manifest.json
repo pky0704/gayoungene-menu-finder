@@ -1,0 +1,16 @@
+[
+  {
+    "file": "storefront-2022-front.jpg",
+    "bytes": 1113182,
+    "sha256": "7a41e8d44f3d355abbef7c7380368f80a72c0a01d928bd9d4da796b679cbe5a3",
+    "kind": "original_photo",
+    "source_filename": "KakaoTalk_20261004_135311552.jpg"
+  },
+  {
+    "file": "storefront-2022-sign.jpg",
+    "bytes": 1702142,
+    "sha256": "3b2c04803e52e6352d339ae2215e2e0c656397803d51ab8ccdfd56325a7cbbfd",
+    "kind": "original_photo",
+    "source_filename": "KakaoTalk_20261004_135313299.jpg"
+  }
+]

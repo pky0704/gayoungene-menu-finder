@@ -1,0 +1,19 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import {createHash} from 'node:crypto';
+import {content,languages} from '../src/content.js';import {extras} from '../src/extras.js';
+import {dishes as before} from '../../dist/data.js';
+import {dishes as after,ingredientStatus} from '../build/menu/data.js?v=20261004-country';
+import {messages} from '../build/menu/i18n.js?v=20261004-country';import '../build/menu/official-locales.js';
+assert.deepEqual(Object.keys(languages),['ko','en','zh-Hans','ja','vi','mn','th','ru','id']);
+for(const lang of Object.keys(languages)){assert.ok(content[lang]&&extras[lang]);for(const dish of after){assert.ok(dish.names[lang]);assert.ok(dish.descriptions[lang]);assert.equal(typeof dish.units[lang],'string');}}
+for(const l of ['ko','th','ru'])for(const k of Object.keys(messages.en))assert.equal(typeof messages[l][k],'string',l+': '+k);
+assert.equal(before.length,after.length);
+for(let i=0;i<before.length;i++)for(const k of ['id','menuNumber','priceKrw','ingredients','contains','spiceLevel','photo'])assert.deepEqual(after[i][k],before[i][k]);
+const hash=p=>createHash('sha256').update(fs.readFileSync(new URL(p,import.meta.url))).digest('hex');
+assert.equal(hash('../build/assets/logo.png'),hash('../../dist/assets/gayoungene-logo.png'));
+const config=JSON.parse(fs.readFileSync(new URL('../vercel.json',import.meta.url)));
+assert.equal(config.redirects[0].destination,'https://gayoungene-prepay.vercel.app/:path*');
+assert.equal(config.redirects[0].permanent,false);
+assert.equal(config.outputDirectory,'official/build');
+const assets=fs.readdirSync(new URL('../build/assets/',import.meta.url));
+assert.ok(!assets.some(x=>/welcome-illustration|shared-table|image\(2\)/.test(x)));
+console.log('PASS official invariants: locale order/completeness, unchanged menu facts, exact original logo, safe prepay route and asset exclusions.');

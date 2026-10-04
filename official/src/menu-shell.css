@@ -1,0 +1,3 @@
+@import url('/fonts.css');
+:root{font-family:'Noto Sans','Noto Sans KR','Noto Sans JP','Noto Sans SC','Noto Sans Thai',sans-serif}body,button,input,select{font-family:inherit}:root:lang(ja){font-family:'Noto Sans JP','Noto Sans KR',sans-serif}:root:lang(zh-Hans){font-family:'Noto Sans SC','Noto Sans KR',sans-serif}:root:lang(th){font-family:'Noto Sans Thai','Noto Sans KR',sans-serif}
+.official-return{padding:12px 24px;background:#fff5e9;border-bottom:1px solid #eed8c3;font-size:16px}.official-return a{color:#9c3700;font-weight:700;text-decoration:none;overflow-wrap:anywhere}.official-return a:focus-visible{outline:3px solid #9c3700;outline-offset:4px}

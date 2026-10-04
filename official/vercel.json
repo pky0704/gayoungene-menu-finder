@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "node official/build.mjs",
+  "outputDirectory": "official/build",
+  "redirects": [
+    { "source": "/prepay/:path*", "destination": "https://gayoungene-prepay.vercel.app/:path*", "permanent": false }
+  ],
+  "rewrites": [{ "source": "/menu", "destination": "/menu/index.html" }],
+  "headers": [{"source":"/(.*)","headers":[
+    {"key":"X-Content-Type-Options","value":"nosniff"},
+    {"key":"Referrer-Policy","value":"strict-origin-when-cross-origin"},
+    {"key":"X-Frame-Options","value":"DENY"}
+  ]}]
+}

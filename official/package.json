@@ -1,0 +1,14 @@
+{
+  "name":"gayoungene-official",
+  "version":"0.1.0",
+  "private":true,
+  "type":"module",
+  "scripts":{
+    "build":"node build.mjs",
+    "dev":"node serve.mjs",
+    "test":"node build.mjs && node tests/invariants.mjs",
+    "test:browser":"node tests/browser.cjs"
+  },
+  "engines":{"node":">=22"},
+  "devDependencies":{"playwright":"1.63.0"}
+}

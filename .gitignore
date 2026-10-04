@@ -11,3 +11,8 @@ node_modules/
 .DS_Store
 
 tmp/
+
+# Website deployment assets: face use authorized on website, not public GitHub.
+official/private-assets/
+official/build/
+official/qa/
