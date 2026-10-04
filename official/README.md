@@ -4,13 +4,13 @@ Brand-story homepage using the existing menu project’s real data and functiona
 
 ## Current deployment
 
-Review URL: https://gayoungene-official.vercel.app/
+Production URL: https://www.gayoungene.com/
 
 - Vercel project: gayoungene-official, in the existing gayoungene team.
 - Project ID: prj_AUxnQFBeXUsOq4ypTuYNEwndTT1y
-- Ready deployment: dpl_AMXqWxPPXfZPpHZnRJrNH3XpFjUj
-- Created using dashboard Drop to Deploy. This is a manual static upload, not Git auto-deployment.
-- Custom domain remains unconnected pending owner review.
+- Ready deployment: dpl_FWhPS8jmnsS3SgNa1bYBug1GXEQu
+- Latest production deployment: Vercel CLI, approved static bundle from commit 285978c. Git auto-deployment remains unconnected.
+- www.gayoungene.com is connected; gayoungene.com redirects to it. Unauthenticated HTTP and browser verification passed on 2026-10-05.
 
 ## Routes
 
@@ -47,7 +47,7 @@ Set REQUIRE_PRIVATE_ASSETS=1 when running invariants and browser tests for deplo
 
 After building and checking, node official/package-static.mjs creates a new ignored tmp/official-deploy-* directory containing the complete static bundle with the official redirects and security headers. Upload only that directory or its contents as a ZIP to the existing official project. The packaging command does not deploy. Vercel authentication and live verification are required before reporting an update.
 
-For static dashboard upload, package the reviewed contents of official/build with the redirects, rewrites and headers from official/vercel.json. Static upload settings use buildCommand: null, installCommand: null and outputDirectory: ".". The current deployed bundle contains 88 files.
+For static dashboard upload, package the reviewed contents of official/build with the redirects, rewrites and headers from official/vercel.json. Static upload settings use buildCommand: null, installCommand: null and outputDirectory: ".". The final packaged bundle contains 137 site files before CLI project metadata.
 
 For future CLI deployment, confirm the linked project and team before using official/vercel.json. Do not reuse the menu or prepay project IDs. Follow https://vercel.com/docs/cli/build and https://vercel.com/docs/cli/deploy for prebuilt deployment.
 
@@ -60,4 +60,4 @@ Home and menu share navigation and footer. Visit details and five ordering guide
 
 The build prerenders 9 home and 10 menu locales. src/site-config.js controls the verified deployment origin used for canonical URLs, schemas and sitemap; update it when the custom domain is connected. Run npm --prefix official test for the asset/data invariants and static-page checks. The browser CLI script has updated selectors, but this session's actual visual verification used the Codex in-app browser. See docs/official-site/UNIFIED-BRAND-20261005.md for evidence and limitations.
 
-Local-only game-preview-link.js, if present, and the obsolete qa-content.js are excluded from public build output. Their source files remain intact. Approved private assets must be present before a production deployment. Vercel scope access remains blocked by a 403 response; no redeployment is claimed.
+Local-only game-preview-link.js, if present, and the obsolete qa-content.js are excluded from public build output. Their source files remain intact. Approved private assets must be present before a production deployment. The connector returned 403, but the owner authenticated and the CLI deployed successfully. Current production is dpl_FWhPS8jmnsS3SgNa1bYBug1GXEQu, READY. See the newest CURRENT.md entry.

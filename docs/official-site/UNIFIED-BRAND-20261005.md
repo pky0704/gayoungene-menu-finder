@@ -23,3 +23,25 @@ npm test의 데이터 12개 검사와 기존 DOM 상호작용 검사, 공식 빌
 공개 배포
 
 기존 gayoungene-official 프로젝트를 확인했으나 Vercel API가 gayoungene 팀에 대한 403 권한 오류를 반환했다. 해당 팀 접근이 가능한 계정으로 연결을 다시 인증해야 재배포할 수 있다. 이번 변경은 로컬 미리보기 반영이며 공개 배포 완료가 아니다. 도메인·DNS는 변경하지 않았다.
+
+
+2026-10-05 최종 운영 배포 완료
+
+공식 주소: https://www.gayoungene.com/
+gayoungene.com 접속은 www.gayoungene.com으로 정상 연결된다.
+프로젝트: gayoungene / gayoungene-official
+프로젝트 ID: prj_AUxnQFBeXUsOq4ypTuYNEwndTT1y
+배포 ID: dpl_FWhPS8jmnsS3SgNa1bYBug1GXEQu
+배포 상태: READY / production
+배포 생성: 2026-10-05 02:33 KST
+배포 주소: https://gayoungene-official-rfxi9ehmw-gayoungene.vercel.app
+배포 소스: codex/official-site-build-20261004, 285978c
+빌드: 정적 사이트, Vercel 처리 3초
+
+사용자의 최종 배포 요청과 직접 로그인 이후, Vercel CLI의 pky0704 계정에서 기존 프로젝트 ID와 팀을 확인했다. 승인 이미지 6개를 포함한 정적 파일을 기존 프로젝트에 운영 배포했다. 인증 파일은 업로드 제외했다. 새 프로젝트를 만들지 않았으며 기존 메뉴·선결제 프로젝트와 DNS 설정은 변경하지 않았다. www 공식 도메인이 이미 연결되어 있음을 확인해 canonical, hreflang, 구조화 데이터와 사이트맵의 기준 주소를 맞췄다.
+
+로그인 정보를 보내지 않은 HTTP 요청으로 홈 9개와 메뉴 10개의 총 19개 페이지 응답 200, 메뉴 32개, canonical, 공식 카카오 링크를 확인했다. 승인 이미지 6개는 서버 응답 파일과 원본의 SHA-256이 일치했다. 사이트맵 19개 주소와 robots를 확인했고 /prepay는 기존 선결제 서비스로 307 연결됐다.
+
+실제 공식 도메인의 PC 홈, 영어 전환과 통합 메뉴, 맵지 않은 메뉴 3개 추천, 390×844 모바일 홈과 기존 menu=M006 QR 상세를 확인했다. 떡볶이 5,000원과 한국어 직원 안내 흐름을 보존했고 모바일 가로 넘침과 관찰된 브라우저 오류는 없었다. 신청·전화·메시지·결제는 실행하지 않았다.
+
+검수 결과와 화면은 official/qa/production-20261005/에 Git 제외로 보관했다. 이전의 로그인 대기·도메인 미연결 기록은 당시 이력이며, 이 배포 기록이 현재 상태다. 원어민 번역 검수와 미제공 후기 원문은 별도 확인 항목으로 남는다.
