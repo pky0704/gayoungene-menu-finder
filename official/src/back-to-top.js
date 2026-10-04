@@ -32,7 +32,7 @@ function updateVisibility() {
 
 button.addEventListener('click', () => {
   // Keep keyboard navigation at the destination when the floating button hides.
-  document.querySelector('.header .brand, .site-header .brand')?.focus({preventScroll: true});
+  document.querySelector('.site-masthead .brand, .header .brand, .site-header .brand')?.focus({preventScroll: true});
   window.scrollTo({top: 0, behavior: reducedMotion.matches ? 'instant' : 'smooth'});
 });
 

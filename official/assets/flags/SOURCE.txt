@@ -1,0 +1,3 @@
+Country flag SVGs served by FlagCDN (https://flagcdn.com), retrieved 2026-10-05.
+Original SVG files are preserved. CSS displays them within a circle.
+Flags are visual cues only; each language is also named in its own script.

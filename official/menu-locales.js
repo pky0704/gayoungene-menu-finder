@@ -1,3 +1,4 @@
+import {experience} from '../experience-copy.js';
 import {content as brandContent} from '../content.js';
 // Locale extensions for the official site only. Legacy menu deployment is unchanged.
 import {languages,messages} from './i18n.js?v=20261004-country';
@@ -59,3 +60,5 @@ for(const row of storeInfo)['ko','th','ru'].forEach((l,i)=>row[l]=store[row.key]
 const brandIntroduction=storeInfo.find(row=>row.key==='intro');
 for(const [locale,copy] of Object.entries(brandContent))brandIntroduction[locale]=copy.heroText.replaceAll('\n',' ');
 brandIntroduction.fr='Gayoungene est une petite adresse de cuisine coréenne à Suyu, Séoul, tenue par une mère et sa fille. La mère cuisine depuis 2012 ; sa fille Gayoung a créé le nom et dessiné le logo. Depuis l’ouverture en 2022, elles cuisinent et vous accueillent ensemble.';
+
+for(const lang of Object.keys(experience)){messages[lang].guideStart=experience[lang].recommend;}
